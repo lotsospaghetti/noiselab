@@ -6,13 +6,17 @@ dnf5 -y remove --no-autoremove "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
 
 dnf5 -y install \
   /tmp/rpms/kernel/kernel-[0-9]*.rpm \
-  /tmp/rpms/kernel/kernel-core-*.rpm \
-  /tmp/rpms/kernel/kernel-modules-*.rpm \
-  /tmp/rpms/kernel/kernel-devel-*.rpm \
-  /tmp/rpms/kernel/kernel-tools-*.rpm \
-  /tmp/rpms/kernel/kernel-common-*.rpm
+  /tmp/rpms/kernel/kernel-core-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-modules-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-modules-core-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-modules-extra-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-devel-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-devel-matched-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-tools-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-tools-libs-[0-9]*.rpm \
+  /tmp/rpms/kernel/kernel-common-[0-9]*.rpm
 
-if [[ "NVIDIA" == "closed" ]]; then dnf5 -y install /tmp/rpms/kernel/kernel-nvidia-closed-*.rpm;
+if [[ "NVIDIA" == "closed" ]]; then dnf5 -y install /tmp/rpms/kernel/kernel-nvidia-closed-lts-[0-9]*.rpm;
 elif [[ -n "$NVIDIA" ]]; then dnf5 -y install /tmp/rpms/kernel/kernel-nvidia-[0-9]*.rpm; fi
 
 dnf5 versionlock add "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
