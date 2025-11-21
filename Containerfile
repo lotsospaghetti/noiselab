@@ -20,12 +20,13 @@ FROM ${NVIDIA_NAME} AS nvidia
 FROM ${BASE_NAME} AS noiselab
 
 COPY system_files/base /
-COPY build_files /ctx/
+COPY ./build_files/install-bazzite-kernel ./build_files/cleanup /ctx/
 
 # install Bazzite kernel
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=bind,from=kernel,src=/,dst=/tmp/rpms/kernel \
+    mkdir -p /var/roothome && \
     /ctx/install-bazzite-kernel && \
     /ctx/cleanup
 
@@ -35,6 +36,8 @@ RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     /ctx/install-firmware && \
     /ctx/cleanup
+
+COPY ./build_files/initramfs ./build_files/post-install /ctx/
 
 # build initramfs and finalize
 RUN --mount=type=cache,dst=/var/cache \
