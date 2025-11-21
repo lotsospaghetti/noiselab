@@ -26,7 +26,6 @@ COPY ./build_files/install-bazzite-kernel ./build_files/cleanup /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=bind,from=kernel,src=/,dst=/tmp/rpms/kernel \
-    mkdir -p /var/roothome && \
     /ctx/install-bazzite-kernel && \
     /ctx/cleanup
 

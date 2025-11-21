@@ -2,7 +2,7 @@
 
 set -euox pipefail
 
-dnf5 -y remove "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
+dnf5 -y remove --no-autoremove "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
 
 dnf5 -y install \
   /tmp/rpms/kernel/kernel-[0-9]*.rpm \
