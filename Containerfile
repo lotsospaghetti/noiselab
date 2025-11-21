@@ -33,6 +33,7 @@ RUN --mount=type=cache,dst=/var/cache \
 ADD https://raw.githubusercontent.com/ublue-os/bazzite/refs/heads/main/build_files/install-firmware /ctx/install-firmware
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
+    chmod +x /ctx/install-firmware && \
     /ctx/install-firmware && \
     /ctx/cleanup
 
