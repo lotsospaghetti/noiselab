@@ -22,6 +22,15 @@ ARG IMAGE_NAME="${IMAGE_NAME:-noiselab}"
 COPY system_files/base /
 COPY ./build_files/install-bazzite-kernel ./build_files/cleanup /ctx/
 
+# setup Copr repos
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    dnf5 -y copr enable bazzite-org/bazzite && \
+    dnf5 -y copr enable bazzite-org/bazzite-multilib && \
+    dnf5 -y copr enable ublue-os/staging && \
+    dnf5 -y copr enable ublue-os/packages && \
+    /ctx/cleanup
+
 # install Bazzite kernel
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
@@ -35,6 +44,15 @@ RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     chmod +x /ctx/install-firmware && \
     /ctx/install-firmware && \
+    /ctx/cleanup
+
+# disable Copr repos
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    dnf5 -y copr disable bazzite-org/bazzite && \
+    dnf5 -y copr disable bazzite-org/bazzite-multilib	&& \
+    dnf5 -y copr disable ublue-os/staging && \
+    dnf5 -y copr disable ublue-os/packages && \
     /ctx/cleanup
 
 COPY ./build_files/initramfs ./build_files/post-install /ctx/
