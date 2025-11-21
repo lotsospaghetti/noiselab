@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+set -ouex pipefail
+
+dnf5 versionlock clear
+
+dnf5 clean all
+rm -rf /tmp/* || true
+find /var/* -maxdepth 0 -type d \! -name cache -exec rm -fr {} \;
+find /var/cache/* -maxdepth 0 -type d \! -name libdnf5 \! -name rpm-ostree -exec rm -fr {} \;
+rm -rf /var/tmp || true
+mkdir -p /var/tmp
+chmod -R 1777 /var/tmp
+
+ostree container commit

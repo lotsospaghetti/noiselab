@@ -1,0 +1,69 @@
+css: |
+  .main-section {
+    margin: 15px;
+    border-radius: 25px;
+  }
+  .main-section banner-text {
+    margin: 15px;
+    color: white;
+  }
+
+sections:
+  - title: "Digital Audio Workstations"
+    subtitle: "uhh"
+    banner: file:///usr/share/ublue-os/bazaar/daw.png
+    banner-fit: contain
+    banner-text-halign: start
+    banner-text-valign: center
+    banner-text-label-xalign: 0.0
+    classes:
+      - main-section
+    appids:
+      - com.bitwig.BitwigStudio
+      - org.zrythm.Zrythm
+      - fm.reaper.Reaper
+      - com.bespokesynth.BespokeSynth
+      - com.rosegardenmusic.rosegarden
+      - com.ntrack.n-track
+      - org.audacityteam.Audacity
+      - io.lmms.LMMS
+  - title: "Chiptunes and Trackers"
+    subtitle: "uhh"
+    banner: file:///usr/share/ublue-os/bazaar/chiptune.png
+    banner-fit: contain
+    banner-text-halign: start
+    banner-text-valign: center
+    banner-text-label-xalign: 0.0
+    classes:
+      - main-section
+    appids:
+      - org.tildearrow.furnace
+      - com.github.reduz.ChibiTracker
+      - org.milkytracker.MilkyTracker
+      - org.famistudio.FamiStudio
+      - com.blitterstudio.amiberry
+      - io.github.sameboy.SameBoy
+  - title: "Hardware Utilities"
+    subtitle: "uhh"
+    banner: file:///usr/share/ublue-os/bazaar/hardware.png
+    banner-fit: contain
+    banner-text-halign: start
+    banner-text-valign: center
+    banner-text-label-xalign: 0.0
+    classes:
+      - main-section
+    appids:
+      - io.github.dagargo.Elektroid
+  - title: "Storefronts"
+    subtitle: "uhh"
+    banner: file:///usr/share/ublue-os/bazaar/storefront.png
+    banner-fit: contain
+    banner-text-halign: start
+    banner-text-valign: center
+    banner-text-label-xalign: 0.0
+    classes:
+      - main-section
+    appids:
+      - io.itch.itch
+      - com.valvesoftware.Steam
+      - com.heroicgameslauncher.hgl
