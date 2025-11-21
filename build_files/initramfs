@@ -8,9 +8,3 @@ KERNEL_VERSION="$(rpm -q --queryformat="%{evr}.%{arch}" kernel-core)"
 export DRACUT_NO_XATTR=1
 /usr/bin/dracut --no-hostonly --kver "${KERNEL_VERSION}" --reproducible -v --add ostree -f "/lib/modules/${KERNEL_VERSION}/initramfs.img"
 chmod 0600 "/lib/modules/${KERNEL_VERSION}/initramfs.img"
-
-# hopefully adding kargs this way works...! couldn't find any info on adding them during builds
-rpm-ostree kargs \
-  --append-if-missing=preempt=full \
-  --append-if-missing=nohz_full=all \
-  --append-if-missing=threadirqs
