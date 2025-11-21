@@ -16,8 +16,9 @@ dnf5 -y install \
   /tmp/rpms/kernel/kernel-tools-libs-[0-9]*.rpm \
   /tmp/rpms/kernel/kernel-common-[0-9]*.rpm
 
-if [[ "$NVIDIA" == "closed" ]]; then dnf5 -y install /tmp/rpms/kernel/kernel-nvidia-closed-lts-[0-9]*.rpm;
-elif [[ -n "$NVIDIA" ]]; then dnf5 -y install /tmp/rpms/kernel/kernel-nvidia-[0-9]*.rpm; fi
+
+if [[ "$IMAGE_NAME" == *"nvidia-open" ]]; then dnf5 -y install /tmp/rpms/kernel/kernel-nvidia-[0-9]*.rpm;
+elif [[ "IMAGE_NAME" == *"nvidia" ]]; then dnf5 -y install /tmp/rpms/kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi;
 
 dnf5 versionlock add "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
 
