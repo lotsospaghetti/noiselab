@@ -7,11 +7,10 @@ ARG KERNEL_IMAGE="${KERNEL_IMAGE:-ghcr.io/bazzite-org/kernel-bazzite}"
 ARG KERNEL_NAME="${KERNEL_IMAGE}:latest-f${FEDORA_VERSION}-${ARCH}"
 FROM ${KERNEL_NAME} AS kernel
 
-#ifdef NVIDIA
+ARG BUILD_NVIDIA="${BUILD_NVIDIA:-no}"
 ARG NVIDIA_IMAGE="${NVIDIA_IMAGE:-ghcr.io/bazzite-org/nvidia-drivers}"
 ARG NVIDIA_NAME="${NVIDIA_IMAGE}:latest-f${FEDORA_VERSION}-${ARCH}"
 FROM ${NVIDIA_NAME} AS nvidia
-#endif /* NVIDIA */
 
 ##############
 # BASE BUILD
