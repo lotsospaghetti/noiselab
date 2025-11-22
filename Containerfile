@@ -22,7 +22,7 @@ FROM ${BASE_NAME} AS noiselab
 
 ARG IMAGE_NAME="${IMAGE_NAME:-noiselab-$KERNEL_FLAVOR}"
 
-COPY system_files/base/$KERNEL_FLAVOR/* system_files/base/shared/* /
+COPY system_files/base/* /
 COPY --chmod=+x ./build_files/setup-coprs ./build_files/setup-repos ./build_files/install-audinux-kernel ./build_files/cleanup /ctx/
 
 RUN --mount=type=cache,dst=/var/cache \
