@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+set -eoux pipefail
+
+COPRS=$(echo \
+ublue-os/staging \
+ublue-os/packages \
+bazzite-org/bazzite \
+bazzite-org/bazzite-multilib \
+ycollet/audinux \
+patrickl/wine-tkg \
+bazzite-org/obs-vkcapture \
+bazzite-org/webapp-manager )
+
+if [[ "${1:-enable}" == 'enable' ]]; then
+  for copr in $COPRS; do
+    dnf5 -y copr enable $copr;
+    dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=98
+  done
+
+  dnf5 -y config-manager setopt "*audinux*".priority=1 "*audinux*".exclude="yabridge wine wine-staging wine-mono wine-dxvk libcurl-gnutls winetricks pipewire-wineasio wineasio"
+  dnf5 -y config-manager setopt "*wine-tkg*".priority=2
+else
+  for copr in $COPRS; do
+    dnf5 -y copr disable $copr;
+  done
+fi

@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+set -eoux pipefail
+
+dnf5 -y install realtime-setup
+systemctl enable realtime-entsk.service
+systemctl enable realtime-setup.service
+
+systemctl enable tuned.service
+
+dnf5 -y install python3-pip python3-tkinter
+pip install --upgrade --break-system-packages rtcqs
+rtcqs # not sure what this will do in github's build system but hoping it'll give some workable diagnostics
+
+dnf5 -y install yabridge wine.x86_64 wine.i686 wine-mono-bin mingw32-wine-gecko mingw64-wine-gecko wine-dxvk winetricks
+yabridge libcurl-gnutls --refresh
+dnf5 -y install pipewire-wineasio pipewire-jack-audio-connection-kit --allowerasing
+
+dnf5 -y install ffmpeg
