@@ -1,0 +1,3 @@
+# enable full kernel preemption
+# https://discourse.ubuntu.com/t/fine-tuning-the-ubuntu-24-04-kernel-for-low-latency-throughput-and-power-efficiency/44834#kernel-preemption-model
+kargs = ["preempt=full"]

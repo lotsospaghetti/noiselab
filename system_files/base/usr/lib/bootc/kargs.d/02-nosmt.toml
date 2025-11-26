@@ -1,0 +1,3 @@
+# disable simultaneous multithreading
+# https://wiki.linuxaudio.org/wiki/system_configuration#simultaneous_multithreading
+kargs = ["nosmt"]

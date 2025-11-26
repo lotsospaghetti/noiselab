@@ -18,8 +18,8 @@ if [[ "${1:-enable}" == 'enable' ]]; then
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=98
   done
 
-  dnf5 -y config-manager setopt "*audinux*".priority=1 "*audinux*".exclude="yabridge wine wine-staging wine-mono wine-dxvk libcurl-gnutls winetricks pipewire-wineasio wineasio"
-  dnf5 -y config-manager setopt "*wine-tkg*".priority=2
+  dnf5 -y config-manager setopt wine-tkg.priority=1 # yabridge repo
+  dnf5 -y config-manager setopt audinux.priority=3
 else
   for copr in $COPRS; do
     dnf5 -y copr disable $copr;

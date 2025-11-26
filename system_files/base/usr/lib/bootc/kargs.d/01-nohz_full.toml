@@ -1,0 +1,3 @@
+# disable periodic tick interrupts on all CPUs
+# https://discourse.ubuntu.com/t/fine-tuning-the-ubuntu-24-04-kernel-for-low-latency-throughput-and-power-efficiency/44834#kernel-noise
+kargs = ["nohz_full=all"]

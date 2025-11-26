@@ -1,0 +1,3 @@
+# enable low-latency in generic kernel
+# https://wiki.linuxaudio.org/wiki/system_configuration#do_i_really_need_a_real-time_kernel
+kargs = ["threadirqs"]

@@ -4,14 +4,6 @@ ARG BASE_IMAGE="${BASE_IMAGE:-ghcr.io/ublue-os/base-main}"
 ARG BASE_NAME="${BASE_IMAGE}:${FEDORA_VERSION}"
 ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-lqx}"
 
-#ARG KERNEL_IMAGE="${KERNEL_IMAGE:-ghcr.io/bazzite-org/kernel-bazzite}"
-#ARG KERNEL_NAME="${KERNEL_IMAGE}:latest-f${FEDORA_VERSION}-${ARCH}"
-#FROM ${KERNEL_NAME} AS kernel
-
-#ARG NVIDIA_IMAGE="${NVIDIA_IMAGE:-ghcr.io/bazzite-org/nvidia-drivers}"
-#ARG NVIDIA_NAME="${NVIDIA_IMAGE}:latest-f${FEDORA_VERSION}-${ARCH}"
-#FROM ${NVIDIA_NAME} AS nvidia
-
 ARG DESKTOP_BASE="${DESKTOP_BASE:-noiselab}"
 
 ###############
@@ -22,8 +14,8 @@ FROM ${BASE_NAME} AS noiselab
 
 ARG IMAGE_NAME="${IMAGE_NAME:-noiselab-$KERNEL_FLAVOR}"
 
-COPY system_files/base/ /
-COPY --chmod=+x ./build_files/setup-coprs ./build_files/setup-repos ./build_files/install-audinux-kernel ./build_files/cleanup /ctx/
+COPY ./system_files/base/usr/lib/bootc /usr/lib/
+COPY --chmod=+x ./build_files/setup-coprs ./build_files/setup-repos ./build_files/install-audinux-kernel ./build_files/cleanup ./build_files/configure-system ./build_files/install-base-packages /ctx/
 
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
@@ -36,11 +28,16 @@ RUN --mount=type=cache,dst=/var/cache \
     /ctx/install-audinux-kernel && \
     /ctx/cleanup
 
-COPY --chmod=+x ./build_files/configure-system /ctx/
-
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     /ctx/configure-system && \
+    /ctx/cleanup
+
+COPY ./packages/base.packages /tmp/packagelist
+
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    /ctx/install-base-packages && \
     /ctx/cleanup
 
 COPY --chmod=+x ./build_files/initramfs ./build_files/post-install /ctx/

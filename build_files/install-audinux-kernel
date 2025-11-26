@@ -2,11 +2,12 @@
 
 set -eoux pipefail
 
-# valid KERNEL_FLAVOR variables: generic, lqx, rt, rt-stable, xan
+# valid KERNEL_FLAVOR variables: generic, lqx, xan
 
 if [[ "$KERNEL_FLAVOR" != "generic" ]]; then
   dnf5 -y remove --no-autoremove "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
   dnf5 -y install kernel-$KERNEL_FLAVOR-mao rt-tests
+  rm /usr/lib/bootc/kargs.d/01-threadirqs.toml
 fi
 
 # install additional cachyos packages
