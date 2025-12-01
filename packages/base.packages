@@ -6,7 +6,7 @@ jack-audio-connection-kit
 jack-audio-connection-kit-dbus
 pipewire-jack-audio-connection-kit
 qjackctl
-cable
+qpwgraph
 rtcqs
 ffmpeg
 yabridge
@@ -31,5 +31,8 @@ Carla-mao
 yq
 ffmpeg
 librewolf
+chromium
 tailscale
 webapp-manager
+gocryptfs
+sirikali
