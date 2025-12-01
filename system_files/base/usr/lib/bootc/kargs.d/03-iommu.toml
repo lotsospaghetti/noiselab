@@ -1,0 +1,3 @@
+# enable VT-d
+# TODO: see whether or not kernel ignores intel_iommu on an AMD processor, if it does then I get to be lazy here lol
+kargs = ["iommu=pt intel_iommu=on"]

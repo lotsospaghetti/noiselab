@@ -3,6 +3,7 @@ ARG FEDORA_VERSION="${FEDORA_VERSION:-43}"
 ARG BASE_IMAGE="${BASE_IMAGE:-ghcr.io/ublue-os/base-main}"
 ARG BASE_NAME="${BASE_IMAGE}:${FEDORA_VERSION}"
 ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-lqx}"
+ARG NVIDIA_VERSION="${KERNEL_FLAVOR:-none}"
 
 ARG DESKTOP_BASE="${DESKTOP_BASE:-noiselab}"
 
@@ -12,10 +13,9 @@ ARG DESKTOP_BASE="${DESKTOP_BASE:-noiselab}"
 
 FROM ${BASE_NAME} AS noiselab
 
-ARG IMAGE_NAME="${IMAGE_NAME:-noiselab-$KERNEL_FLAVOR}"
+ARG IMAGE_NAME="${IMAGE_NAME:-noiselab-base}"
 
-COPY ./system_files/base/usr/lib/bootc /usr/lib/
-COPY --chmod=+x ./build_files/setup-coprs ./build_files/setup-repos ./build_files/install-audinux-kernel ./build_files/cleanup ./build_files/configure-system ./build_files/install-base-packages /ctx/
+COPY ./build_files/setup-coprs ./build_files/setup-repos ./build_files/install-kernel ./build_files/cleanup ./build_files/configure-system ./build_files/install-packagelist /ctx/
 
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
@@ -23,9 +23,11 @@ RUN --mount=type=cache,dst=/var/cache \
     /ctx/setup-repos enable && \
     /ctx/cleanup
 
+COPY --from=ghcr.io/bazzite-org/kernel-bazzite:latest-f${FEDORA_VERSION}-${ARCH} / /tmp/bazzite-kernel
+
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/install-audinux-kernel && \
+    /ctx/install-kernel && \
     /ctx/cleanup
 
 RUN --mount=type=cache,dst=/var/cache \
@@ -37,10 +39,11 @@ COPY ./packages/base.packages /tmp/packagelist
 
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/install-base-packages && \
+    /ctx/install-packagelist && \
     /ctx/cleanup
 
-COPY --chmod=+x ./build_files/initramfs ./build_files/post-install /ctx/
+COPY ./build_files/initramfs ./build_files/post-install /ctx/
+COPY ./system_files/base/usr ./system_files/base/etc /
 
 # finalize image
 RUN --mount=type=cache,dst=/var/cache \

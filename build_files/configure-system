@@ -6,11 +6,31 @@ set -eoux pipefail
 dnf5 -y install realtime-setup
 systemctl enable realtime-entsk.service
 systemctl enable realtime-setup.service
+sed -i '$s/unlimited/4194304/' /etc/security/limits.d/realtime.conf # change memlock value
+# TODO: user will need to be in realtime, audio, jackuser, and pipewire groups! (also libvirt, though not directly related here)
+# preferrably find some way to automate this (perhaps during an ISO installation?), otherwise have usermod command be a simple ujust script:
+# sudo usermod -aG realtime,audio,jackuser,pipewire,libvirt $USER
 
 # configure tuned
+dnf5 -y install tuned tuned-profiles-realtime tuned-profiles-nfv tuned-profiles-nfv-host
 systemctl enable tuned.service
+tuned-adm profile realtime-virtual-host
+# TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
 
-# remove pipewire-jack so pipewire becomes a JACK client
-rm /usr/etc/ld.so.conf.d/pipewire-jack-*.conf || true
-rm /etc/ld.so.conf.d/pipewire-jack-*.conf || true
-dnf5 -y remove pipewire-jack-audio-connection-kit
+# nondestructively rename pipewire-jack entries so native JACK can be used
+# TODO: provide a ujust script that toggles between pipewire-jack and native JACK by doing this
+pushd /etc/ld.so.conf.d
+mv pipewire-jack-i386.conf pipewire-jack-i386.disabled
+mv pipewire-jack-x86_64.conf pipewire-jack-x86_64.disabled
+popd
+
+# install virtualization packages, enable modular libvirt daemon, and allow libvirt group to read VM images
+# https://sysguides.com/install-kvm-on-linux
+dnf5 -y install qemu-kvm libvirt virt-install virt-manager virt-viewer edk2-ovmf swtpm qemu-img guestfs-tools libosinfo virtio-win
+for drv in qemu interface network nodedev nwfilter secret storage; do
+  systemctl enable virt${drv}d.service
+  systemctl enable virt${drv}d{,-ro,-admin}.socket
+done
+setfacl -R -b /var/lib/libvirt/images
+setfacl -R -m g:libvirt:rwX /var/lib/libvirt/images
+setfacl -m d:g:libvirt:rwx /var/lib/libvirt/images

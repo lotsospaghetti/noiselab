@@ -2,26 +2,24 @@
 
 set -eoux pipefail
 
-COPRS=$(echo \
-ublue-os/staging \
-ublue-os/packages \
-bazzite-org/bazzite \
-bazzite-org/bazzite-multilib \
-ycollet/audinux \
-patrickl/wine-tkg \
-bazzite-org/obs-vkcapture \
-bazzite-org/webapp-manager )
+coprs=(
+  ublue-os/staging
+  ublue-os/packages
+  bazzite-org/bazzite
+  bazzite-org/bazzite-multilib
+  ycollet/audinux
+  bazzite-org/webapp-manager
+)
 
 if [[ "${1:-enable}" == 'enable' ]]; then
-  for copr in $COPRS; do
+  for copr in $coprs; do
     dnf5 -y copr enable $copr;
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=98
   done
 
-  dnf5 -y config-manager setopt wine-tkg.priority=1 # yabridge repo
-  dnf5 -y config-manager setopt audinux.priority=3
+  dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:ycollet:audinux.priority=1
 else
-  for copr in $COPRS; do
+  for copr in $coprs; do
     dnf5 -y copr disable $copr;
   done
 fi
