@@ -21,7 +21,7 @@ So, this is the image list I'm gonna try offering:
 - `desktop-nvidia`: The NVIDIA desktop image, with the XanMod\* and stock kernels.
 - `desktop-arm`: No idea how well ARM is supported by Universal Blue but if it's at all possible, this would be the desktop image for it.
 - `base`, `base-nvidia`, and `base-arm`: Minimal images specifically for building something out of, same hardware/kernel support as their desktop counterparts.
-- `bazzite`, `bazzite-nvidia`, and `bazzite-base`: Bazzite kernel-only builds intended for hardware specifically supported by it, such as handheld gaming PCs.
+- `bazzite`, `bazzite-nvidia`, `bazzite-nvidia-lts`, and `bazzite-base`: Bazzite kernel-only builds intended for hardware specifically supported by it, such as handheld gaming PCs. Also the only image type with legacy NVIDIA support because upstream Bazzite already has that covered.
 
 \*Anecdotally I installed the Fedora COSMIC spin to an NVIDIA desktop and threw both Liquorix and XanMod on it, and only the latter boots successfully. That's my only justification for XanMod here atm
 
