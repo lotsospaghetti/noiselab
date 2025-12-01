@@ -2,12 +2,7 @@
 
 set -eoux pipefail
 
-coprs='ublue-os/staging'
-coprs+='ublue-os/packages'
-coprs+='bazzite-org/bazzite'
-coprs+='bazzite-org/bazzite-multilib'
-coprs+='ycollet/audinux'
-coprs+='bazzite-org/webapp-manager'
+coprs=('ublue-os/staging' 'ublue-os/packages' 'bazzite-org/bazzite' 'bazzite-org/bazzite-multilib' 'ycollet/audinux' 'bazzite-org/webapp-manager')
 
 if [[ "${1:-enable}" == 'enable' ]]; then
   for copr in $coprs; do
