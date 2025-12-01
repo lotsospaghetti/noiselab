@@ -2,14 +2,12 @@
 
 set -eoux pipefail
 
-coprs=(
-  ublue-os/staging
-  ublue-os/packages
-  bazzite-org/bazzite
-  bazzite-org/bazzite-multilib
-  ycollet/audinux
-  bazzite-org/webapp-manager
-)
+coprs='ublue-os/staging'
+coprs+='ublue-os/packages'
+coprs+='bazzite-org/bazzite'
+coprs+='bazzite-org/bazzite-multilib'
+coprs+='ycollet/audinux'
+coprs+='bazzite-org/webapp-manager'
 
 if [[ "${1:-enable}" == 'enable' ]]; then
   for copr in $coprs; do
@@ -17,7 +15,7 @@ if [[ "${1:-enable}" == 'enable' ]]; then
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=98
   done
 
-  dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:ycollet:audinux.priority=1
+  dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:audinux.priority=1
 else
   for copr in $coprs; do
     dnf5 -y copr disable $copr;
