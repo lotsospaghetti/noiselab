@@ -6,13 +6,11 @@ coprs=('ublue-os/staging' 'ublue-os/packages' 'bazzite-org/bazzite' 'bazzite-org
 
 if [[ "${1:-enable}" == 'enable' ]]; then
   for copr in $coprs; do
-    dnf5 -y copr enable $copr;
-    if [[ $(echo $copr | grep 'audinux') ]]; then
-      dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=1
-    else
-      dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=98
-    fi
+    dnf5 -y copr enable $copr
+    dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=98
   done
+
+  dnf5 -y config-manager setopt "*audinux*".priority=1
 
 else
   for copr in $coprs; do
