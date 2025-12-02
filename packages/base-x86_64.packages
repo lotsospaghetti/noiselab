@@ -1,6 +1,7 @@
 cage
-kitty
+ptyxis
 bluez-mao
+usbmuxd
 xwiimote-ng
 jack-audio-connection-kit
 jack-audio-connection-kit-dbus
@@ -20,13 +21,6 @@ sonic-pi
 supercollider
 line
 puredata
-tek
-ardour8
-lmms-mao
-qtractor-mao
-zrythm
-mscore-mao
-rosegarden4
 Carla-mao
 yq
 ffmpeg
@@ -36,3 +30,13 @@ tailscale
 webapp-manager
 gocryptfs
 sirikali
+ufw
+zfs
+fish
+tmux
+fastfetch
+lm_sensors
+nerd-fonts
+rclone
+rsync
+htop

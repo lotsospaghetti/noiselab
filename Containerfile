@@ -35,7 +35,7 @@ RUN --mount=type=cache,dst=/var/cache \
     /ctx/configure-system && \
     /ctx/cleanup
 
-COPY ./packages/base.packages /tmp/packagelist
+COPY ./packages/base-${ARCH}.packages /tmp/packagelist
 
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
@@ -43,7 +43,7 @@ RUN --mount=type=cache,dst=/var/cache \
     /ctx/cleanup
 
 COPY ./build_files/initramfs ./build_files/post-install /ctx/
-COPY ./system_files/base/usr ./system_files/base/etc /
+COPY ./system_files/base-${ARCH}/usr ./system_files/base-${ARCH}/etc /
 
 # finalize image
 RUN --mount=type=cache,dst=/var/cache \
@@ -60,6 +60,6 @@ RUN bootc container lint
 # DESKTOP BUILD
 ###############
 
-from $DESKTOP_BASE as noiselab-desktop
+#from $DESKTOP_BASE as noiselab-desktop
 
 RUN bootc container lint

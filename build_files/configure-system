@@ -34,3 +34,13 @@ done
 setfacl -R -b /var/lib/libvirt/images
 setfacl -R -m g:libvirt:rwX /var/lib/libvirt/images
 setfacl -m d:g:libvirt:rwx /var/lib/libvirt/images
+
+# setup uupd updater
+dnf5 -y install uupd
+dnf5 remove -y ublue-os-update-services
+systemctl disable rpm-ostreed-automatic.timer
+systemctl disable flatpak-system-update.timer
+systemctl --global disable flatpak-user-update.timer
+systemctl disable brew-update.timer
+systemctl disable brew-upgrade.timer
+systemctl enable uupd.timer
