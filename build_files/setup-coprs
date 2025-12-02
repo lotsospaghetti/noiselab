@@ -19,7 +19,7 @@ if [[ "${1:-enable}" == "enable" ]]; then
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:"${copr////:}".priority=98
   done
 
-  dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:ycollet:audinux.priority=1
+  sed -i 's@priority=98@priority=1@g' /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:ycollet:audinux.repo
 else
   for copr in "${coprs[@]}"
   do
