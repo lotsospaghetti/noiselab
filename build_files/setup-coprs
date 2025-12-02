@@ -2,10 +2,18 @@
 
 set -eoux pipefail
 
-coprs=('ublue-os/staging' 'ublue-os/packages' 'bazzite-org/bazzite' 'bazzite-org/bazzite-multilib' 'ycollet/audinux' 'bazzite-org/webapp-manager' 'che/nerd-fonts')
+coprs=(
+  ublue-os/staging
+  ublue-os/packages
+  bazzite-org/bazzite
+  bazzite-org/bazzite-multilib
+  ycollet/audinux
+  bazzite-org/webapp-manager
+  che/nerd-fonts
+)
 
 if [[ "${1:-enable}" == 'enable' ]]; then
-  for copr in $coprs; do
+  for copr in ${coprs[@]}; do
     dnf5 -y copr enable $copr
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:${copr////:}.priority=98
   done
@@ -13,7 +21,7 @@ if [[ "${1:-enable}" == 'enable' ]]; then
   dnf5 -y config-manager setopt "*audinux*".priority=1
 
 else
-  for copr in $coprs; do
+  for copr in ${coprs[@]}; do
     dnf5 -y copr disable $copr;
   done
 fi
