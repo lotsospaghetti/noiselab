@@ -3,7 +3,7 @@ ARG FEDORA_VERSION="${FEDORA_VERSION:-43}"
 ARG BASE_IMAGE="${BASE_IMAGE:-ghcr.io/ublue-os/base-main}"
 ARG BASE_NAME="${BASE_IMAGE}:${FEDORA_VERSION}"
 ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-lqx}"
-ARG NVIDIA_VERSION="${KERNEL_FLAVOR:-none}"
+ARG NVIDIA_VERSION="${NVIDIA_VERSION:-none}"
 
 ARG DESKTOP_BASE="${DESKTOP_BASE:-noiselab}"
 
@@ -13,7 +13,7 @@ ARG DESKTOP_BASE="${DESKTOP_BASE:-noiselab}"
 
 FROM ${BASE_NAME} AS noiselab
 
-ARG IMAGE_NAME="${IMAGE_NAME:-noiselab-base}"
+ARG IMAGE_NAME="${IMAGE_NAME:-base}"
 
 COPY ./build_files/setup-coprs ./build_files/setup-repos ./build_files/install-kernel ./build_files/cleanup ./build_files/configure-system ./build_files/install-packagelist /ctx/
 
@@ -30,16 +30,16 @@ RUN --mount=type=cache,dst=/var/cache \
     /ctx/install-kernel && \
     /ctx/cleanup
 
-RUN --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    /ctx/configure-system && \
-    /ctx/cleanup
-
 COPY ./packages/base-${ARCH}.packages /tmp/packagelist
 
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     /ctx/install-packagelist && \
+    /ctx/cleanup
+
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    /ctx/configure-system && \
     /ctx/cleanup
 
 COPY ./build_files/initramfs ./build_files/post-install /ctx/

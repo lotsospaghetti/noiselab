@@ -44,3 +44,13 @@ systemctl --global disable flatpak-user-update.timer
 systemctl disable brew-update.timer
 systemctl disable brew-upgrade.timer
 systemctl enable uupd.timer
+
+# setup homebrew
+dnf5 -y install ublue-brew
+systemctl enable brew-setup.service
+systemctl disable brew-upgrade.timer
+systemctl disable brew-update.timer
+
+# adjust miscellaneous services
+systemctl --global enable podman.socket
+systemctl --global enable systemd-tmpfiles-setup.service

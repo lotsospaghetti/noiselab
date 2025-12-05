@@ -6,7 +6,7 @@ if [[ "${1:-enable}" == 'enable' ]]; then
   dnf5 -y config-manager addrepo --overwrite --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
   dnf5 -y config-manager addrepo --overwrite --from-repofile=https://repo.librewolf.net/librewolf.repo
   dnf5 -y config-manager addrepo --overwrite --from-repofile=https://fedorapeople.org/groups/virt/virtio-win/virtio-win.repo
-  dnf5 -y config-manager addrepo --overwrite --from-repofile=https://negativo17.org/repos/fedora-multimedia.repo
+  sed -i 's@enabled=0@enabled=1@g' /etc/yum.repos.d/negativo17-fedora-multimedia.repo
   dnf5 -y config-manager addrepo --overwrite --from-repofile=https://negativo17.org/repos/fedora-nvidia.repo
   dnf5 -y config-manager setopt "*negativo17*".priority=2
   dnf5 -y config-manager setopt "*fedora*".exclude="mesa-* kernel-core-* kernel-modules-* kernel-uki-virt-*"

@@ -9,7 +9,9 @@ coprs=(
   bazzite-org/bazzite-multilib
   ycollet/audinux
   bazzite-org/webapp-manager
+  scottames/ghostty
   che/nerd-fonts
+  julicen/atkinson-hyperlegible-fonts
 )
 
 if [[ "${1:-enable}" == 'enable' ]]; then
