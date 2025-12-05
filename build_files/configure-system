@@ -2,8 +2,7 @@
 
 set -eoux pipefail
 
-# install and configure realtime-setup
-dnf5 -y install realtime-setup
+# configure realtime-setup
 systemctl enable realtime-entsk.service
 systemctl enable realtime-setup.service
 sed -i '$s/unlimited/4194304/' /etc/security/limits.d/realtime.conf # change memlock value
@@ -12,7 +11,6 @@ sed -i '$s/unlimited/4194304/' /etc/security/limits.d/realtime.conf # change mem
 # sudo usermod -aG realtime,audio,jackuser,pipewire,libvirt $USER
 
 # configure tuned
-dnf5 -y install tuned tuned-profiles-realtime tuned-profiles-nfv tuned-profiles-nfv-host
 systemctl enable tuned.service
 tuned-adm profile realtime-virtual-host
 # TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
@@ -24,9 +22,8 @@ mv pipewire-jack-i386.conf pipewire-jack-i386.disabled
 mv pipewire-jack-x86_64.conf pipewire-jack-x86_64.disabled
 popd
 
-# install virtualization packages, enable modular libvirt daemon, and allow libvirt group to read VM images
+# enable modular libvirt daemon and allow libvirt group to read VM images
 # https://sysguides.com/install-kvm-on-linux
-dnf5 -y install qemu-kvm libvirt virt-install virt-manager virt-viewer edk2-ovmf swtpm qemu-img guestfs-tools libosinfo virtio-win
 for drv in qemu interface network nodedev nwfilter secret storage; do
   systemctl enable virt${drv}d.service
   systemctl enable virt${drv}d{,-ro,-admin}.socket
@@ -36,7 +33,6 @@ setfacl -R -m g:libvirt:rwX /var/lib/libvirt/images
 setfacl -m d:g:libvirt:rwx /var/lib/libvirt/images
 
 # setup uupd updater
-dnf5 -y install uupd
 dnf5 remove -y ublue-os-update-services
 systemctl disable rpm-ostreed-automatic.timer
 systemctl disable flatpak-system-update.timer
@@ -46,7 +42,6 @@ systemctl disable brew-upgrade.timer
 systemctl enable uupd.timer
 
 # setup homebrew
-dnf5 -y install ublue-brew
 systemctl enable brew-setup.service
 systemctl disable brew-upgrade.timer
 systemctl disable brew-update.timer
