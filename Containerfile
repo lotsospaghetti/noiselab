@@ -2,12 +2,13 @@ ARG ARCH="${ARCH:-x86_64}"
 ARG FEDORA_VERSION="${FEDORA_VERSION:-43}"
 ARG BASE_IMAGE="${BASE_IMAGE:-ghcr.io/ublue-os/base-main}"
 ARG BASE_NAME="${BASE_IMAGE}:${FEDORA_VERSION}"
-ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-lqx}"
 ARG BAZZITE_KERNEL_IMG="${BAZZITE_KERNEL_IMG:-ghcr.io/bazzite-org/kernel-bazzite:latest-f${FEDORA_VERSION}-${ARCH}}"
-ARG NVIDIA_VERSION="${NVIDIA_VERSION:-none}"
 
 ARG DESKTOP_BASE="${DESKTOP_BASE:-base}"
 FROM ${BAZZITE_KERNEL_IMG} as bazzite-kernel
+
+ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-lqx}"
+ARG NVIDIA_VERSION="${NVIDIA_VERSION:-none}"
 
 ###############
 # BASE BUILD
@@ -29,7 +30,7 @@ COPY ./build_files/install-kernel /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=bind,from=bazzite-kernel,src=/,dst=/tmp/bazzite-kernel \
-    /ctx/install-kernel && \
+    KERNEL_FLAVOR=$KERNEL_FLAVOR NVIDIA_VERSION=$NVIDIA_VERSION /ctx/install-kernel && \
     /ctx/cleanup
 
 COPY ./packages/base-${ARCH}.packages /tmp/packagelist
