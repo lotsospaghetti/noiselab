@@ -17,11 +17,12 @@ if [[ "$KERNEL_FLAVOR" == "bazzite" ]]; then
     /tmp/bazzite-kernel/kernel-devel-matched-[0-9]*.rpm \
     /tmp/bazzite-kernel/kernel-tools-[0-9]*.rpm \
     /tmp/bazzite-kernel/kernel-tools-libs-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-common-[0-9]*.rpm \
-  if [[ "$NVIDIA_VERSION" == "open" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-[0-9]*.rpm;
-  elif [[ "$NVIDIA_VERSION" == "lts" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi;
+    /tmp/bazzite-kernel/kernel-common-[0-9]*.rpm
+
+  if [[ "$NVIDIA_VERSION" == "open" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-[0-9]*.rpm
+  elif [[ "$NVIDIA_VERSION" == "lts" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi
 else
-  dnf5 -y install kernel-$KERNEL_FLAVOR-mao kernel-$KERNEL_FLAVOR-mao-headers rt-tests
+  dnf5 -y install kernel-"${KERNEL_FLAVOR}"-mao kernel-"${KERNEL_FLAVOR}"-mao-headers rt-tests
 fi
 
 dnf5 versionlock add "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
