@@ -8,8 +8,8 @@ if [[ "${1:-enable}" == 'enable' ]]; then
   dnf5 -y config-manager addrepo --overwrite --from-repofile=https://fedorapeople.org/groups/virt/virtio-win/virtio-win.repo
   sed -i 's@enabled=0@enabled=1@g' /etc/yum.repos.d/negativo17-fedora-multimedia.repo
   dnf5 -y config-manager addrepo --overwrite --from-repofile=https://negativo17.org/repos/fedora-nvidia.repo
-  dnf5 -y config-manager setopt negativo17-fedora-multimedia.priority=2
-  dnf5 -y config-manager setopt negativo17-fedora-nvidia.priority=2
+  dnf5 -y config-manager setopt fedora-multimedia.priority=2
+  dnf5 -y config-manager setopt fedora-nvidia.priority=2
 
 else
   for repo in \
