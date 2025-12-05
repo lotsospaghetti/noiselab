@@ -2,25 +2,21 @@
 
 set -eoux pipefail
 
-coprs=(
-  ublue-os/staging
-  ublue-os/packages
-  bazzite-org/bazzite
-  bazzite-org/bazzite-multilib
-  ycollet/audinux
-  bazzite-org/webapp-manager
-  che/nerd-fonts
-)
-
-if [[ "${1:-enable}" == "enable" ]]; then
-  IFS=$'\n\t' for copr in "${coprs[@]}"; do
-    dnf5 -y copr enable "$copr"
+for copr in \
+  ublue-os/staging \
+  ublue-os/packages \
+  bazzite-org/bazzite \
+  bazzite-org/bazzite-multilib \
+  ycollet/audinux \
+  bazzite-org/webapp-manager \
+  che/nerd-fonts; \
+do
+  if [[ "${1:-enable}" == "enable" ]]; then
+    dnf5 -y copr enable "${copr}" && \
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:"${copr////:}".priority=98
-  done
+  else
+    dnf5 -y copr disable "${copr}"
+  fi
+done
 
-  sed -i 's@priority=98@priority=1@g' /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:ycollet:audinux.repo
-else
-  IFS=$'\n\t' for copr in "${coprs[@]}"; do
-    dnf5 -y copr disable "$copr"
-  done
-fi
+test "${1:-enable}" == "enable" && dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:ycollet:audinux.priority=1
