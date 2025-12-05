@@ -18,7 +18,8 @@ else
     librewolf \
     virtio-win \
     negativo17-fedora-multimedia \
-    negativo17-fedora-nvidia \
+    negativo17-fedora-nvidia; \
+  do
     sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/$repo.repo
   done
 fi
