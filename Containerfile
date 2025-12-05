@@ -20,6 +20,7 @@ ARG IMAGE_NAME="${IMAGE_NAME:-base}"
 COPY ./build_files/setup-coprs ./build_files/setup-repos ./build_files/cleanup /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
+    mkdir -p /var/roothome && \
     /ctx/setup-coprs enable && \
     /ctx/setup-repos enable && \
     /ctx/cleanup
@@ -66,6 +67,7 @@ RUN bootc container lint
 #COPY ./build_files/setup-coprs ./build_files/setup-repos ./build_files/cleanup /ctx/
 #RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
+    mkdir -p /var/roothome && \
     /ctx/setup-coprs enable && \
     /ctx/setup-repos enable && \
     /ctx/cleanup
