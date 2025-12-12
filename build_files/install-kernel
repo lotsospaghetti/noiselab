@@ -47,7 +47,7 @@ dnf5 versionlock add scx-scheds scx-tools
 systemctl disable scx_loader.service
 
 # install mesa packages
-dnf5 -y install mesa mesa.i686
+dnf5 -y install mesa
 
 # install nvidia drivers if applicable
 if [[ "$NVIDIA_VERSION" != "none" && "$KERNEL_FLAVOR" != "bazzite" ]]; then
