@@ -2,6 +2,10 @@
 
 set -eoux pipefail
 
+# install audinux patched bluez
+dnf5 -y swap --repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez bluez-mao
+dnf5 versionlock add bluez-mao
+
 # configure realtime-setup
 systemctl enable realtime-entsk.service
 systemctl enable realtime-setup.service

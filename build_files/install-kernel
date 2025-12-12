@@ -14,7 +14,7 @@ chmod +x "${GRUBSCRIPT}"
 # valid KERNEL_FLAVOR variables: lqx, xan, bazzite
 # valid NVIDIA_VERSION variables: none, open, lts
 
-dnf5 -y remove --no-autoremove "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
+dnf5 -y remove --no-autoremove kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-tools kernel-tools-libs
 
 if [[ "$KERNEL_FLAVOR" == "bazzite" ]]; then
   dnf5 -y install \
@@ -32,7 +32,8 @@ if [[ "$KERNEL_FLAVOR" == "bazzite" ]]; then
   if [[ "$NVIDIA_VERSION" == "open" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-[0-9]*.rpm
   elif [[ "$NVIDIA_VERSION" == "lts" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi
 else
-  dnf5 -y install kernel-"${KERNEL_FLAVOR}"-mao kernel-"${KERNEL_FLAVOR}"-mao-headers rt-tests
+  dnf5 -y install kernel-"${KERNEL_FLAVOR}"-mao rt-tests
+  dnf5 -y swap kernel-headers kernel-"${KERNEL_FLAVOR}"-mao-headers
 fi
 
 # install additional cachyos packages
