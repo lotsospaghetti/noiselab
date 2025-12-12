@@ -33,7 +33,7 @@ if [[ "$KERNEL_FLAVOR" == "bazzite" ]]; then
   elif [[ "$NVIDIA_VERSION" == "lts" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi
 else
   dnf5 -y install kernel-"${KERNEL_FLAVOR}"-mao rt-tests
-  dnf5 -y swap kernel-headers kernel-"${KERNEL_FLAVOR}"-mao-headers
+  # install kernel headers in configure-system script
 fi
 
 # install additional cachyos packages

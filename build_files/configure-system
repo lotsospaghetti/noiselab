@@ -2,9 +2,17 @@
 
 set -eoux pipefail
 
-# install audinux patched bluez
+# install audinux patched bluez and, if not on bazzite kernel, headers
 dnf5 -y swap --repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez bluez-mao
 dnf5 versionlock add bluez-mao
+if [[ "${KERNEL_FLAVOR}" != "bazzite" ]]; then
+  dnf5 -y swap kernel-headers kernel-"${KERNEL_FLAVOR}"-mao-headers
+  dnf5 versionlock add kernel-"${KERNEL_FLAVOR}"-mao-headers
+fi
+
+# reinstall virtualbox-guest-additions, since kernel install will remove it
+# apparently it comes default with Fedora and it's benign on non-guests
+dnf5 -y install virtualbox-guest-additions
 
 # configure realtime-setup
 systemctl enable realtime-entsk.service
