@@ -16,6 +16,11 @@ coprs=(
 )
 
 if [[ "${1:-enable}" == 'enable' ]]; then
+  # this package (needed by Carla) is in Fedora repos
+  # yet dnf complains about it being unavailable.
+  # try installing it now before COPRS are enabled
+  dnf5 -y install python3-pyliblo
+
   for copr in "${coprs[@]}"; do
     dnf5 -y copr enable "${copr}" && \
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:"${copr////:}".priority=98
