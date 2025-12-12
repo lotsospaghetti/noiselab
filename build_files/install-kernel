@@ -46,9 +46,6 @@ dnf5 -y copr disable bieszczaders/kernel-cachyos-addons
 dnf5 versionlock add scx-scheds scx-tools
 systemctl disable scx_loader.service
 
-# install mesa packages
-dnf5 -y install mesa
-
 # install nvidia drivers if applicable
 if [[ "$NVIDIA_VERSION" != "none" && "$KERNEL_FLAVOR" != "bazzite" ]]; then
   dnf5 -y install nvidia-driver nvidia-settings akmod-nvidia nvidia-driver-libs.i686
