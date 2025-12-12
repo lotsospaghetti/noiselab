@@ -23,6 +23,7 @@ COPY ./build_files/setup-coprs ./build_files/setup-repos ./build_files/cleanup /
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     mkdir -p /var/roothome && \
+    dnf5 -y --skip-unavailable upgrade && \
     /ctx/setup-coprs enable && \
     /ctx/setup-repos enable && \
     /ctx/cleanup
