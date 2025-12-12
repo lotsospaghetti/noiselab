@@ -5,8 +5,6 @@ set -eoux pipefail
 coprs=(
   ublue-os/staging
   ublue-os/packages
-  bazzite-org/bazzite
-  bazzite-org/bazzite-multilib
   ycollet/audinux
   patrickl/wine-tkg
   bazzite-org/webapp-manager

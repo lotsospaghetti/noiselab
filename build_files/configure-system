@@ -14,6 +14,11 @@ fi
 # apparently it comes default with Fedora and it's benign on non-guests
 dnf5 -y install virtualbox-guest-additions
 
+# install wiimote support from bazzite COPR
+dnf5 -y copr enable bazzite-org/bazzite
+dnf5 -y install xwiimote-ng
+dnf5 -y copr disable bazzite-org/bazzite
+
 # configure realtime-setup
 systemctl enable realtime-entsk.service
 systemctl enable realtime-setup.service
