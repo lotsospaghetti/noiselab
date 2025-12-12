@@ -15,6 +15,9 @@ systemctl enable tuned.service
 tuned-adm profile realtime-virtual-host
 # TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
 
+# install rtcqs
+pip install --upgrade --break-system-packages rtcqs
+
 # enable modular libvirt daemon and allow libvirt group to read VM images
 # https://sysguides.com/install-kvm-on-linux
 for drv in qemu interface network nodedev nwfilter secret storage; do
