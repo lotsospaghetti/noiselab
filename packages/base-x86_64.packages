@@ -14,7 +14,7 @@ qemu-img
 guestfs-tools
 libosinfo
 virtio-win
-python3-tk
+python3-tkinter
 uupd
 ublue-brew
 cage
