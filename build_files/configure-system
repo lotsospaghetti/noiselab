@@ -15,13 +15,6 @@ systemctl enable tuned.service
 tuned-adm profile realtime-virtual-host
 # TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
 
-# nondestructively rename pipewire-jack entries so native JACK can be used
-# TODO: provide a ujust script that toggles between pipewire-jack and native JACK by doing this
-pushd /etc/ld.so.conf.d
-mv pipewire-jack-i386.conf pipewire-jack-i386.disabled
-mv pipewire-jack-x86_64.conf pipewire-jack-x86_64.disabled
-popd
-
 # enable modular libvirt daemon and allow libvirt group to read VM images
 # https://sysguides.com/install-kvm-on-linux
 for drv in qemu interface network nodedev nwfilter secret storage; do
@@ -31,15 +24,6 @@ done
 setfacl -R -b /var/lib/libvirt/images
 setfacl -R -m g:libvirt:rwX /var/lib/libvirt/images
 setfacl -m d:g:libvirt:rwx /var/lib/libvirt/images
-
-# setup uupd updater
-dnf5 remove -y ublue-os-update-services
-systemctl disable rpm-ostreed-automatic.timer
-systemctl disable flatpak-system-update.timer
-systemctl --global disable flatpak-user-update.timer
-systemctl disable brew-update.timer
-systemctl disable brew-upgrade.timer
-systemctl enable uupd.timer
 
 # setup homebrew
 systemctl enable brew-setup.service

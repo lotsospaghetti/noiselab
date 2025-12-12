@@ -2,6 +2,15 @@
 
 set -eoux pipefail
 
+# create grub2-mkconfig shim so kernel-mao postinstall doesn't fail
+GRUBSCRIPT="$(whereis grub2-mkconfig | cut -d' ' -f2)"
+mv "${GRUBSCRIPT}" "${GRUBSCRIPT}".old
+printf '%s\n' \
+'#!/usr/bin/sh' \
+'return 0' \
+> "${GRUBSCRIPT}"
+chmod +x "${GRUBSCRIPT}"
+
 # valid KERNEL_FLAVOR variables: lqx, xan, bazzite
 # valid NVIDIA_VERSION variables: none, open, lts
 
@@ -56,3 +65,8 @@ if [[ "$NVIDIA_VERSION" != "none" ]]; then
 fi
 
 dnf5 versionlock add "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
+
+# restore real grub2-mkconfig
+rm -f "${GRUBSCRIPT}"
+mv "${GRUBSCRIPT}".old "${GRUBSCRIPT}"
+unset -v GRUBSCRIPT
