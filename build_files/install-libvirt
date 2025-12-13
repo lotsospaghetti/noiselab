@@ -18,7 +18,7 @@ pkgs=(
   python3-libguestfs
 )
 
-for pkg in "${PKGS[@]}"; do
+for pkg in "${pkgs[@]}"; do
   dnf5 -y install $pkg
 done
 

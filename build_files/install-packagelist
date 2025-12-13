@@ -1,6 +1,0 @@
-#!/usr/bin/sh
-
-set -eoux pipefail
-
-dnf5 -y upgrade
-dnf5 -y install $(<tmp/packagelist)
