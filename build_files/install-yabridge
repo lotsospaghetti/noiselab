@@ -1,0 +1,20 @@
+#!/usr/bin/sh
+
+set -eoux pipefail
+
+pkgs=(
+  yabridge
+  wine.x86_64
+  wine.i686
+  wine-mono-bin
+  mingw32-wine-gecko
+  mingw64-wine-gecko
+  wine-dxvk
+  winetricks
+  libcurl-gnutls
+  pipewire-wineasio
+)
+
+for pkg in "${PKGS[@]}"; do
+  dnf5 -y --from-repo="copr:copr.fedorainfracloud.org:patrickl:wine-tkg" install $pkg
+done

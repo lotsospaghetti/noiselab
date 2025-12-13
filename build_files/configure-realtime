@@ -1,0 +1,28 @@
+#!/usr/bin/sh
+
+set -oeux pipefail
+
+dnf5 -y install \
+  realtime-setup \
+  tuned \
+  tuned-profiles-realtime \
+  tuned-profiles-nfv \
+  tuned-profiles-nfv-host \
+  python3-pip \
+  python3-tkinter
+
+# configure realtime-setup
+systemctl enable realtime-entsk.service
+systemctl enable realtime-setup.service
+sed -i '$s/unlimited/4194304/' /etc/security/limits.d/realtime.conf # change memlock value
+# TODO: user will need to be in realtime, audio, jackuser, and pipewire groups! (also libvirt, though not directly related here)
+# preferrably find some way to automate this (perhaps during an ISO installation?), otherwise have usermod command be a simple ujust script:
+# sudo usermod -aG realtime,audio,jackuser,pipewire,libvirt $USER
+
+# configure tuned
+systemctl enable tuned.service
+tuned-adm profile realtime-virtual-host
+# TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
+
+# install rtcqs
+pip install --upgrade --break-system-packages rtcqs

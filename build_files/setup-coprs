@@ -8,7 +8,6 @@ coprs=(
   ycollet/audinux
   patrickl/wine-tkg
   bazzite-org/webapp-manager
-  scottames/ghostty
   che/nerd-fonts
   julicen/atkinson-hyperlegible-fonts
 )
@@ -19,8 +18,7 @@ if [[ "${1:-enable}" == 'enable' ]]; then
     dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:"${copr////:}".priority=98
   done
 
-  dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:patrickl:wine-tkg.priority=1
-  dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:ycollet:audinux.priority=2
+  dnf5 -y config-manager setopt copr:copr.fedorainfracloud.org:ycollet:audinux.priority=1
 else
   for copr in "${coprs[@]}"; do
     dnf5 -y copr disable "${copr}"

@@ -1,0 +1,30 @@
+#!/usr/bin/sh
+
+set -eoux pipefail
+
+pkgs=(
+  cosmic-desktop
+  cage
+  wlr-randr
+  gdisk
+  gnome-disk-utility
+  gnome-keyring
+  gnome-keyring-pam
+  tuned-gtk
+  ptyxis
+  bazaar
+  atkinson-hyperlegible-next-fonts
+  atkinson-hyperlegible-mono-fonts
+  nerd-fonts
+  google-noto-sans-cjk-fonts
+  twitter-twemoji-fonts
+  webapp-manager
+)
+
+for pkg in "${PKGS[@]}"; do
+  dnf5 -y install $pkg
+done
+
+dnf5 -y remove \
+  cosmic-store \
+  cosmic-term \

@@ -2,48 +2,35 @@
 
 set -eoux pipefail
 
-# install audinux patched bluez and, if not on bazzite kernel, headers
+pkgs=(
+  jack-audio-connection-kit
+  jack-audio-connection-kit-dbus
+  pipewire-jack-audio-connection-kit
+  sox
+  ublue-brew
+  uupd
+  usbmuxd
+  yq
+  ecryptfs-utils
+  gocryptfs
+  sirikali
+)
+
+for pkg in "${pkgs[@]}"; do
+  dnf5 -y install $pkg
+done
+
+# install audinux patched bluez
 dnf5 -y swap --repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez bluez-mao
 dnf5 versionlock add bluez-mao
-if [[ "${KERNEL_FLAVOR}" != "bazzite" ]]; then
-  dnf5 -y swap kernel-headers kernel-"${KERNEL_FLAVOR}"-mao-headers
-  dnf5 versionlock add kernel-"${KERNEL_FLAVOR}"-mao-headers
-fi
-
-# reinstall virtualbox-guest-additions, since kernel install will remove it
-# apparently it comes default with Fedora and it's benign on non-guests
-dnf5 -y install virtualbox-guest-additions
 
 # install wiimote support from bazzite COPR
 dnf5 -y copr enable bazzite-org/bazzite
 dnf5 -y install xwiimote-ng
 dnf5 -y copr disable bazzite-org/bazzite
 
-# configure realtime-setup
-systemctl enable realtime-entsk.service
-systemctl enable realtime-setup.service
-sed -i '$s/unlimited/4194304/' /etc/security/limits.d/realtime.conf # change memlock value
-# TODO: user will need to be in realtime, audio, jackuser, and pipewire groups! (also libvirt, though not directly related here)
-# preferrably find some way to automate this (perhaps during an ISO installation?), otherwise have usermod command be a simple ujust script:
-# sudo usermod -aG realtime,audio,jackuser,pipewire,libvirt $USER
-
-# configure tuned
-systemctl enable tuned.service
-tuned-adm profile realtime-virtual-host
-# TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
-
-# install rtcqs
-pip install --upgrade --break-system-packages rtcqs
-
-# enable modular libvirt daemon and allow libvirt group to read VM images
-# https://sysguides.com/install-kvm-on-linux
-for drv in qemu interface network nodedev nwfilter secret storage; do
-  systemctl enable virt${drv}d.service
-  systemctl enable virt${drv}d{,-ro,-admin}.socket
-done
-setfacl -R -b /var/lib/libvirt/images
-setfacl -R -m g:libvirt:rwX /var/lib/libvirt/images
-setfacl -m d:g:libvirt:rwx /var/lib/libvirt/images
+# install negativo17 patched ffmpeg
+dnf5 -y install --repo="fedora-multimedia" ffmpeg
 
 # setup homebrew
 systemctl enable brew-setup.service

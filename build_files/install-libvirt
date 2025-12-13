@@ -1,0 +1,43 @@
+#!/usr/bin/sh
+
+set -eoux pipefail
+
+pkgs=(
+  qemu-kvm
+  qemu-img
+  libvirt
+  virt-install
+  virt-manager
+  virt-viewer
+  virt-top
+  virsh
+  edk2-ovmf
+  swtpm
+  virtio-win
+  libguestfs-tools
+  python3-libguestfs
+)
+
+for pkg in "${PKGS[@]}"; do
+  dnf5 -y install $pkg
+done
+
+# install patched kernel headers as applicable
+if [[ "${KERNEL_FLAVOR}" != "bazzite" ]]; then
+  dnf5 -y swap kernel-headers kernel-"${KERNEL_FLAVOR}"-mao-headers
+  dnf5 versionlock add kernel-"${KERNEL_FLAVOR}"-mao-headers
+fi
+
+# reinstall virtualbox-guest-additions, since kernel install will remove it.
+# apparently it comes default with Fedora and it's benign on non-guests
+dnf5 -y install virtualbox-guest-additions
+
+# enable modular libvirt daemon and allow libvirt group to read VM images
+# https://sysguides.com/install-kvm-on-linux
+for drv in qemu interface network nodedev nwfilter secret storage; do
+  systemctl enable virt${drv}d.service
+  systemctl enable virt${drv}d{,-ro,-admin}.socket
+done
+setfacl -R -b /var/lib/libvirt/images
+setfacl -R -m g:libvirt:rwX /var/lib/libvirt/images
+setfacl -m d:g:libvirt:rwx /var/lib/libvirt/images
