@@ -21,7 +21,8 @@ sed -i '$s/unlimited/4194304/' /etc/security/limits.d/realtime.conf # change mem
 
 # configure tuned
 systemctl enable tuned.service
-tuned-adm profile realtime-virtual-host
+#tuned-adm profile realtime-virtual-host
+# TODO: auto-set above profile, perhaps make a first-time setup script?
 # TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
 
 # install rtcqs
