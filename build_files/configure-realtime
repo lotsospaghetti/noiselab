@@ -8,8 +8,6 @@ dnf5 -y install \
   tuned-profiles-realtime \
   tuned-profiles-nfv \
   tuned-profiles-nfv-host \
-  python3-pip \
-  python3-tkinter
 
 # configure realtime-setup
 systemctl enable realtime-entsk.service
@@ -24,6 +22,3 @@ systemctl enable tuned.service
 #tuned-adm profile realtime-virtual-host
 # TODO: auto-set above profile, perhaps make a first-time setup script?
 # TODO: add ujust script to help user set values in /etc/tuned/realtime-variables.conf and/or /etc/tuned/realtime-virtual-host-variables.conf
-
-# install rtcqs
-pip install --upgrade --break-system-packages rtcqs
