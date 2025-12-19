@@ -43,21 +43,25 @@ dnf5 -y install --from-repo="fedora-multimedia" \
   mjpegtools
 
 # Install from COPRs
-dnf5 -y copr enable "ublue-os/packages" && dnf5 -y copr disable "ublue-os/packages"
-dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:ublue-os:packages" \
+dnf5 -y copr enable "ublue-os/packages"
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ublue-os:packages" \
   bazaar \
   ublue-fastfetch
+dnf5 -y copr disable "ublue-os/packages"
 
-dnf5 -y copr enable "bazzite-org/webapp-manager" && dnf5 -y copr disable "bazzite-org/webapp-manager"
-dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:bazzite-org:webapp-manager" webapp-manager
+dnf5 -y copr enable "bazzite-org/webapp-manager"
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:bazzite-org:webapp-manager" webapp-manager
+dnf5 -y copr disable "bazzite-org/webapp-manager"
 
-dnf5 -y copr enable "julicen/atkinson-hyperlegible-fonts" && dnf5 -y copr disable "julicen/atkinson-hyperlegible-fonts"
-dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:julicen:atkinson-hyperlegible-fonts" \
+dnf5 -y copr enable "julicen/atkinson-hyperlegible-fonts"
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:julicen:atkinson-hyperlegible-fonts" \
   atkinson-hyperlegible-next-fonts \
   atkinson-hyperlegible-mono-fonts
+dnf5 -y copr disable "julicen/atkinson-hyperlegible-fonts"
 
-dnf5 -y copr enable "che/nerd-fonts" && dnf5 -y copr disable "che/nerd-fonts"
-dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:che:nerd-fonts" nerd-fonts
+dnf5 -y copr enable "che/nerd-fonts"
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:che:nerd-fonts" nerd-fonts
+dnf5 -y copr disable "che/nerd-fonts"
 
 # install Thorium browser (SSE3 non-beta build)
 THORIUM_TAG="M130.0.6723.174"

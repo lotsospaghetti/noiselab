@@ -240,8 +240,8 @@ misc_pkgs=(
   zynthian-data
 )
 
-dnf5 -y copr enable "ycollet/audinux" && dnf5 -y copr disable "ycollet/audinux"
-dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:ycollet:audinux" \
+dnf5 -y copr enable "ycollet/audinux"
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" \
   "${session_pkgs[@]}" \
   "${daw_pkgs[@]}" \
   "${sequencer_pkgs[@]}" \
@@ -252,3 +252,4 @@ dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:ycollet:audinux" \
   "${sample_pkgs[@]}" \
   "${visual_pkgs[@]}" \
   "${misc_pkgs[@]}"
+dnf5 -y copr disable "ycollet/audinux"

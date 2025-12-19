@@ -29,12 +29,15 @@ if [[ "$KERNEL_FLAVOR" == "bazzite" ]]; then
   if [[ "$NVIDIA_VERSION" == "open" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-[0-9]*.rpm
   elif [[ "$NVIDIA_VERSION" == "lts" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi
 else
-  dnf5 -y install kernel-"${KERNEL_FLAVOR}"-mao rt-tests
+  dnf5 -y copr enable "ycollet/audinux"
+  dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" kernel-"${KERNEL_FLAVOR}"-mao rt-tests
+  dnf5 -y copr disable "ycollet/audinux"
 fi
 
 # install additional cachyos packages
-dnf5 -y copr enable "bieszczaders/kernel-cachyos-addons" && dnf5 -y copr disable "bieszczaders/kernel-cachyos-addons"
-dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-addons" scx-scheds scx-tools
+dnf5 -y copr enable "bieszczaders/kernel-cachyos-addons"
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-addons" scx-scheds scx-tools
+dnf5 -y copr disable "bieszczaders/kernel-cachyos-addons"
 dnf5 versionlock add scx-scheds scx-tools
 systemctl disable scx_loader.service
 
