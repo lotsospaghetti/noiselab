@@ -16,5 +16,5 @@ pkgs=(
 )
 
 dnf5 -y copr enable "patrickl/wine-tkg"
-dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:patrickl:wine-tkg" "${pkgs[@]}"
+dnf5 -y install "${pkgs[@]}"
 dnf5 -y copr disable "patrickl/wine-tkg"
