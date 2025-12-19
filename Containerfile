@@ -1,78 +1,74 @@
-ARG ARCH="${ARCH:-x86_64}"
 ARG FEDORA_VERSION="${FEDORA_VERSION:-43}"
 ARG BASE_IMAGE="${BASE_IMAGE:-ghcr.io/ublue-os/base-main}"
-ARG BASE_NAME="${BASE_IMAGE}:${FEDORA_VERSION}"
 
-ARG BAZZITE_KERNEL_IMG="${BAZZITE_KERNEL_IMG:-ghcr.io/bazzite-org/kernel-bazzite:latest-f${FEDORA_VERSION}-${ARCH}}"
-#FROM ${BAZZITE_KERNEL_IMG} as bazzite-kernel
-
-################
-# DESKTOP BUILD
-################
-
-FROM ${BASE_NAME} AS noiselab
+FROM ${BASE_IMAGE}:${FEDORA_VERSION} AS noiselab
 
 ARG ARCH="${ARCH:-x86_64}"
-ARG IMAGE_NAME="${IMAGE_NAME:-base}"
+ARG IMAGE_NAME="${IMAGE_NAME:-noiselab}"
 ARG KERNEL_FLAVOR="${KERNEL_FLAVOR:-lqx}"
 ARG NVIDIA_VERSION="${NVIDIA_VERSION:-none}"
 
-COPY ./build_files/setup-coprs ./build_files/setup-repos ./build_files/cleanup /ctx/
-RUN --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    mkdir -p /var/roothome && \
-    /ctx/setup-coprs enable && \
-    /ctx/setup-repos enable && \
-    /ctx/cleanup
+# install Homebrew
+COPY --from=ghcr.io/ublue-os/brew:latest /system_files /
 
-#    --mount=type=bind,from=bazzite-kernel,src=/,dst=/tmp/bazzite-kernel \
-COPY ./build_files/install-kernel /ctx/
+COPY ./build_files/01-setup-repos ./build_files/99-cleanup /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/install-kernel && \
-    /ctx/cleanup
+    /ctx/01-setup-repos enable && \
+    /ctx/99-cleanup
+
+COPY ./build_files/02-install-kernel /ctx/
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    /ctx/02-install-kernel && \
+    /ctx/99-cleanup
 
 # TODO: firmware install
 
-COPY ./build_files/install-libvirt /ctx/
+COPY ./build_files/04-install-libvirt /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/install-libvirt && \
-    /ctx/cleanup
+    /ctx/04-install-libvirt && \
+    /ctx/99-cleanup
 
-COPY ./build_files/configure-realtime /ctx/
+COPY ./build_files/05-configure-realtime /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/configure-realtime && \
-    /ctx/cleanup
+    /ctx/05-configure-realtime && \
+    /ctx/99-cleanup
 
-COPY ./build_files/install-yabridge /ctx/
+COPY ./build_files/06-install-wine-tkg/ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/install-yabridge && \
-    /ctx/cleanup
+    /ctx/06-install-wine-tkg && \
+    /ctx/99-cleanup
 
-COPY ./build_files/configure-system /ctx/
+COPY ./build_files/07-configure-system /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/configure-system && \
-    /ctx/cleanup
+    /ctx/07-configure-system && \
+    /ctx/99-cleanup
 
-COPY ./build_files/install-desktop /ctx/
+COPY ./build_files/08-install-desktop /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/install-desktop && \
-    /ctx/cleanup
+    /ctx/08-install-desktop && \
+    /ctx/99-cleanup
+
+COPY ./build_files/09-install-audinux/ctx/
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    /ctx/09-install-audinux && \
+    /ctx/99-cleanup
 
 # finalize base image
 COPY ./system_files/base-${ARCH}/usr ./system_files/base-${ARCH}/etc /
-COPY ./build_files/initramfs ./build_files/post-install /ctx/
+COPY ./build_files/97-initramfs ./build_files/98-post-install /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
-    /ctx/initramfs && \
-    /ctx/setup-repos disable && \
-    /ctx/setup-coprs disable && \
-    /ctx/post-install && \
+    /ctx/97-initramfs && \
+    /ctx/01-setup-repos disable && \
+    /ctx/98-post-install && \
     rm -rf /ctx
 
 RUN bootc container lint

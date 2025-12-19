@@ -43,6 +43,17 @@ sections:
       - org.famistudio.FamiStudio
       - com.blitterstudio.amiberry
       - io.github.sameboy.SameBoy
+  - title: "Visual Mixing"
+    subtitle: "uhh"
+    banner: file:///usr/share/ublue-os/bazaar/chiptune.png
+    banner-fit: contain
+    banner-text-halign: start
+    banner-text-valign: center
+    banner-text-label-xalign: 0.0
+    classes:
+      - main-section
+    appids:
+      - io.github.brunoherbelin.Vimix
   - title: "Hardware Utilities"
     subtitle: "uhh"
     banner: file:///usr/share/ublue-os/bazaar/hardware.png

@@ -2,6 +2,12 @@
 
 set -eoux pipefail
 
+# swap in patched kernel headers
+if [[ "${KERNEL_FLAVOR}" != "bazzite" ]]; then
+  dnf5 -y swap kernel-headers kernel-"${KERNEL_FLAVOR}"-mao-headers
+  dnf5 versionlock add kernel-"${KERNEL_FLAVOR}"-mao-headers
+fi
+
 KERNEL_VERSION="$(rpm -q --queryformat="%{evr}.%{arch}" kernel-core)"
 
 # Ensure Initramfs is generated

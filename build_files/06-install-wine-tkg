@@ -15,6 +15,5 @@ pkgs=(
   pipewire-wineasio
 )
 
-for pkg in "${PKGS[@]}"; do
-  dnf5 -y --from-repo="copr:copr.fedorainfracloud.org:patrickl:wine-tkg" install $pkg
-done
+dnf5 -y copr enable "patrickl/wine-tkg" && dnf5 -y copr disable "patrickl/wine-tkg"
+dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:patrickl:wine-tkg" "${pkgs[@]}"

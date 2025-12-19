@@ -1,0 +1,254 @@
+#!/usr/bin/sh
+
+set -eoux pipefail
+
+session_pkgs=(
+  alsa-scarlett-gui
+  birdhouse
+  Carla-mao
+  jack-link
+  raysession
+)
+
+daw_pkgs=(
+  BespokeSynth
+  cardinal
+  chataigne
+  lmms-mao
+  non-daw
+  tek
+  tenacity
+  zrythm
+)
+
+sequencer_pkgs=(
+  giada
+  hydrogen
+)
+
+tracker_pkgs=(
+  BambooTracker
+  bintracker
+  furnace
+  klystrack
+  milkytracker
+  noteahead
+)
+
+score_pkgs=(
+  mscore-mao
+  rosegarden4
+  tuxguitar
+)
+
+synth_pkgs=(
+  blackbird
+  ChowKick
+  dexed
+  firefly-synth
+  gearmulator
+  geonkick
+  helm
+  jack-oscillator
+  juceopl
+  june21
+  lesynth-fourier
+  minaton-xt
+  minicomputer
+  miriyaki-xt
+  odin2
+  onetrick-keys
+  onetrick-urchin
+  piano
+  raffosynth
+  remid
+  resonarium
+  ripplerx
+  rp2a03
+  surge-xt
+  terrain
+  vaporizer2
+  vitalium
+  vocodersynth
+  xenos
+  zmann
+)
+
+effect_pkgs=(
+  aida-x
+  AnalogTapeModel
+  audio-effects
+  BAngr
+  bassman-preamp
+  bedroomstudio
+  boris-granular-station
+  BYOD
+  cchorus
+  chaffverb
+  ChowCentaur
+  ChowMatrix
+  ChowMultiTool
+  ChowPhaser
+  cloudreverb
+  ddsp
+  delirion
+  deteriorate-lv2
+  dm-bigmuff
+  dm-ds1
+  dm-fuzz
+  dm-graindelay
+  dm-LFO
+  dm-octaver
+  dm-rat
+  dm-repeat
+  dm-reverb
+  dm-Reverse
+  dm-SD1
+  dm-seq
+  dm-shredmaster
+  dm-Spaceecho
+  dm-stutter
+  dm-TimeWarp
+  dm-TubeScreamer
+  dm-vibrato
+  dm-Whammy
+  dragonfly-reverb
+  enover
+  fatfrog
+  filtr
+  fire
+  fodpad-port
+  frequalizer
+  fverb
+  gate12
+  gnomedistort2
+  guitarix
+  gula
+  hamburger
+  hybridreverb2
+  jamesdsp
+  jconvolver
+  jmatconvol
+  littlefly
+  maim
+  master_me
+  melodrumatic
+  modeq
+  multi-tap-delay
+  mxcomp
+  mxtune
+  noise-suppression-for-voice
+  paulstretch
+  phaserotate.lv2
+  plujain-ramp
+  podcastplugins
+  punch
+  radium-compressor
+  rakarrack-plus
+  rccomp
+  rcverb
+  reevr
+  roboverb
+  roomreverb
+  rotor
+  sg-323
+  stereocrossdelay
+  stompbox
+  stompboxui
+  stone-phaser
+  stretcher
+  subhoofer
+  thekissofshame
+  time12
+  tipic
+  valentine
+  waxman
+  wild-blossom-plugins
+  wolf-shaper
+  wstd-3q
+  wstd-crshr
+  wstd-dl3y
+  wstd-dlay
+  wstd-eq
+  wstd-fl3ngr
+  wstd-flangr
+  wstd-fldr
+  wstd-m3nglr
+  wstd-manglr
+  wstd-smthr
+  xdarkterror
+  xtinyterror
+  ykchorus
+)
+
+sample_pkgs=(
+  bandshed-drumkits
+  drops
+  hydrogen-drumkits
+  hydrogen-drumkits-2
+  ninjas2
+  samplebrain
+  samplecat
+  samplehive
+  peaksynth-audio-plugin
+  virtual-playing-orchestra
+  wavbreaker
+)
+
+visual_pkgs=(
+  karmaviz
+  lives-mao
+  projectM-mao
+  projectM-extra-presets
+  prom
+  rt_lpc
+  rt_pvc
+  shiro
+  veejay-core
+  veejay-gui
+  veejay-server
+)
+
+network_pkgs=(
+  audiogridder
+  jacktrip
+  jamulus
+  sonobus
+  zita-ajbridge
+  zita-njbridge
+)
+
+# mostly plugin compilations
+misc_pkgs=(
+  airwindows
+  beatroot-vamp
+  digital-audio-effects
+  DISTRHO-Ports
+  GxPlugins
+  kpp
+  lsp-plugins
+  infamousPlugins
+  librearp
+  polyphone
+  rejj
+  ryukau
+  SocaLabs-plugins
+  uhhyouplugins
+  unplugred
+  nanoinvaders
+  zam-mao-plugins
+  zynthian-data
+)
+
+dnf5 -y copr enable "ycollet/audinux" && dnf5 -y copr disable "ycollet/audinux"
+dnf5 -y install --enablerepo="copr:copr.fedorainfracloud.org:ycollet:audinux" \
+  "${session_pkgs[@]}" \
+  "${daw_pkgs[@]}" \
+  "${sequencer_pkgs[@]}" \
+  "${tracker_pkgs[@]}" \
+  "${score_pkgs[@]}" \
+  "${synth_pkgs[@]}" \
+  "${effect_pkgs[@]}" \
+  "${sample_pkgs[@]}" \
+  "${visual_pkgs[@]}" \
+  "${misc_pkgs[@]}"

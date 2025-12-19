@@ -16,21 +16,10 @@ pkgs=(
   virtio-win
   libguestfs-tools
   python3-libguestfs
+  virtualbox-guest-additions
 )
 
-for pkg in "${pkgs[@]}"; do
-  dnf5 -y install $pkg
-done
-
-# install patched kernel headers as applicable
-if [[ "${KERNEL_FLAVOR}" != "bazzite" ]]; then
-  dnf5 -y swap kernel-headers kernel-"${KERNEL_FLAVOR}"-mao-headers
-  dnf5 versionlock add kernel-"${KERNEL_FLAVOR}"-mao-headers
-fi
-
-# reinstall virtualbox-guest-additions, since kernel install will remove it.
-# apparently it comes default with Fedora and it's benign on non-guests
-dnf5 -y install virtualbox-guest-additions
+dnf5 -y install "${pkgs[@]}"
 
 # enable modular libvirt daemon and allow libvirt group to read VM images
 # https://sysguides.com/install-kvm-on-linux
