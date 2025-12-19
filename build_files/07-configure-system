@@ -33,10 +33,11 @@ systemctl --global enable podman.socket
 systemctl --global enable systemd-tmpfiles-setup.service
 
 # install from COPRs
-dnf5 -y copr enable "ycollet/audinux"
-dnf5 -y swap --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez bluez-mao
-dnf5 -y copr disable "ycollet/audinux"
-dnf5 versionlock add bluez-mao
+# unsure what audinux-patched bluez would have over regular but it sure doesn't want to install...
+#dnf5 -y copr enable "ycollet/audinux"
+#dnf5 -y swap --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez bluez-mao
+#dnf5 -y copr disable "ycollet/audinux"
+#dnf5 versionlock add bluez-mao
 
 dnf5 -y copr enable "bazzite-org/bazzite"
 dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:bazzite-org:bazzite" xwiimote-ng
