@@ -37,7 +37,7 @@ RUN --mount=type=cache,dst=/var/cache \
     /ctx/05-configure-realtime && \
     /ctx/99-cleanup
 
-COPY ./build_files/06-install-wine-tkg/ctx/
+COPY ./build_files/06-install-wine-tkg /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     /ctx/06-install-wine-tkg && \
@@ -55,7 +55,7 @@ RUN --mount=type=cache,dst=/var/cache \
     /ctx/08-install-desktop && \
     /ctx/99-cleanup
 
-COPY ./build_files/09-install-audinux/ctx/
+COPY ./build_files/09-install-audinux /ctx/
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     /ctx/09-install-audinux && \
