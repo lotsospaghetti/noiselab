@@ -34,13 +34,6 @@ else
   dnf5 -y copr disable "ycollet/audinux"
 fi
 
-# install additional cachyos packages
-dnf5 -y copr enable "bieszczaders/kernel-cachyos-addons"
-dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:bieszczaders:kernel-cachyos-addons" scx-scheds scx-tools
-dnf5 -y copr disable "bieszczaders/kernel-cachyos-addons"
-dnf5 versionlock add scx-scheds scx-tools
-systemctl disable scx_loader.service
-
 # install nvidia drivers if applicable
 if [[ "$NVIDIA_VERSION" != "none" && "$KERNEL_FLAVOR" != "bazzite" ]]; then
   dnf5 -y install nvidia-driver nvidia-settings akmod-nvidia nvidia-driver-libs.i686

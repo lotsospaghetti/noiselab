@@ -13,9 +13,6 @@ dnf5 -y install \
 systemctl enable realtime-entsk.service
 systemctl enable realtime-setup.service
 sed -i '$s/unlimited/4194304/' /etc/security/limits.d/realtime.conf # change memlock value
-# TODO: user will need to be in realtime, audio, jackuser, and pipewire groups! (also libvirt, though not directly related here)
-# preferrably find some way to automate this (perhaps during an ISO installation?), otherwise have usermod command be a simple ujust script:
-# sudo usermod -aG realtime,audio,jackuser,pipewire,libvirt $USER
 
 # configure tuned
 systemctl enable tuned.service

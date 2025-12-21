@@ -9,16 +9,64 @@ pkgs=(
   ecryptfs-utils
   gocryptfs
   sirikali
+  libsecret
   sox
   yq
   jq
+  zsh
+  yt-dlp
+  yt-dlp-bash-completion
+  yt-dlp-zsh-completion
+  input-remapper
+  v4l2loopback
+  ufw
+  fastfetch
+  vim
+  nano
+)
+
+terra_pkgs=(
+  8bitdo-udev-rules
+  copyparty
+  inputplumber
+  joycond
+  lan-mouse
+  librepods
+  nemu
+  opentabletdriver
+  pbpctrl
+  scrcpy
+  scrcpy-server
+  scrcpy-bash-completion
+  scrcpy-zsh-completion
+  android-udev-rules
+  scx-scheds
+  scx-tools
+  sndio
+  starship
+  topgrade
+  vgmstream
+  vo-aacenc
+  voicevox
+  x265
+  xavs
+  xavs2
+  xavs2-libs
+  xdvdfs
+  zellij
+  zola
+  zola-bash-completion
+  zola-zsh-completion
+  zsh-autocomplete
 )
 
 dnf5 -y install "${pkgs[@]}"
 
+dnf5 -y install --from-repo="terra,terra-extras,terra-mesa" "${terra_pkgs[@]}"
+
 # install negativo17 system/cli packages
-dnf5 -y swap --from-repo="fedora-multimedia" ffmpeg ffmpeg
-dnf5 -y swap --from-repo="fedora-multimedia" ffmpeg-libs ffmpeg-libs
+dnf5 -y remove --no-autoremove ffmpeg ffmpeg-libs
+dnf5 -y install --from-repo="fedora-multimedia" ffmpeg ffmpeg-libs
 dnf5 -y versionlock add ffmpeg ffmpeg-libs
 dnf5 -y install --from-repo="fedora-rar" rar
 dnf5 -y install --from-repo="fedora-cdrtools" \
@@ -33,9 +81,9 @@ systemctl --global enable podman.socket
 systemctl --global enable systemd-tmpfiles-setup.service
 
 # install from COPRs
-# unsure what audinux-patched bluez would have over regular but it sure doesn't want to install...
+#dnf5 -y remove --no-autoremove bluez
 #dnf5 -y copr enable "ycollet/audinux"
-#dnf5 -y swap --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez bluez-mao
+#dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez-mao
 #dnf5 -y copr disable "ycollet/audinux"
 #dnf5 versionlock add bluez-mao
 

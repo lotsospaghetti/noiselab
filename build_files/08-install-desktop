@@ -2,9 +2,9 @@
 
 set -eoux pipefail
 
-pkgs=(
-  cosmic-desktop
+fedora_pkgs=(
   cage
+  niri
   wlr-randr
   librewolf
   tailscale
@@ -20,33 +20,101 @@ pkgs=(
   flowblade
   ardour8
   twitter-twemoji-fonts
+  xdg-desktop-portal-gtk
+  xdg-desktop-portal-gnome
+  gnome-keyring
+  nautilus
+  file-roller
+  file-roller-nautilus
+  zathura
+  zathura-bash-completion
+  zathura-zsh-completion
+  zathura-plugins
+  mako
+  cmus
+  deadbeef
+  deadbeef-plugins
+  mixxx
+  obs-studio
+  obs-studio-libs
+  obs-studio-plugin-vlc-video
+  obs-studio-plugin-x264
+  lxpolkit
+  swayidle
+  swaylock
+  swayimg
+  udiskie
+  sddm
 )
 
-dnf5 -y install "${pkgs[@]}"
-
-dnf5 -y remove \
-  cosmic-store \
-  cosmic-term
-
-# Install negativo17 multimedia packages
-# TODO: ujust script that auto-registers makemkv
-# http://www.makemkv.com/forum2/viewtopic.php?f=5&t=1053
-dnf5 -y install --from-repo="fedora-multimedia" \
-  vlc \
-  vlc-cli \
-  vlc-plugins-all \
-  mpv \
-  mpv-libs \
-  makemkv \
-  libdvdcss \
-  blender \
+multimedia_pkgs=(
+  vlc
+  vlc-cli
+  vlc-plugins-all
+  mpv
+  mpv-libs
+  makemkv
+  libdvdcss
+  blender
   mjpegtools
+)
+
+terra_pkgs=(
+  WoeUSB-ng
+  SwayOSD
+  cleartype-fonts
+  codium
+  codium-marketplace
+  feishin
+  geist-font
+  ghostty
+  ghostty-bash-completion
+  ghostty-zsh-completion
+  ghostty-shell-integration
+  ghostty-nautilus
+  ghostty-vim
+  ghostty-terminfo
+  helium-browser-bin
+  lowfi
+  mission-center
+  mpvpaper
+  ms-core-fonts
+  netto
+  nerd-fonts
+  open-in-mpv
+  openutau
+  spleen-fonts
+  subtitleedit.bin
+  sway-audio-idle-inhibit
+  swww
+  swww-bash-completion
+  swww-zsh-completion
+  trackiton-waveform
+  walker
+  elephant
+  elephant-calc
+  elephant-clipboard
+  elephant-desktopapplications
+  elephant-files
+  elephant-menus
+  elephant-providerlist
+  elephant-runner
+  elephant-symbols
+  elephant-websearch
+  waybar-niri-taskbar
+  wluma
+  xwayland-satellite
+)
+
+dnf5 -y install --from-repo="fedora-multimedia" "${multimedia_pkgs[@]}"
+
+dnf5 -y install "${fedora_pkgs[@]}"
+
+dnf5 -y install --from-repo="terra,terra-extras,terra-mesa" "${terra_pkgs[@]}"
 
 # Install from COPRs
 dnf5 -y copr enable "ublue-os/packages"
-dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ublue-os:packages" \
-  bazaar \
-  ublue-fastfetch
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ublue-os:packages" bazaar
 dnf5 -y copr disable "ublue-os/packages"
 
 dnf5 -y copr enable "bazzite-org/webapp-manager"
@@ -59,13 +127,4 @@ dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:julicen:atkinson-hyp
   atkinson-hyperlegible-mono-fonts
 dnf5 -y copr disable "julicen/atkinson-hyperlegible-fonts"
 
-dnf5 -y copr enable "che/nerd-fonts"
-dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:che:nerd-fonts" nerd-fonts
-dnf5 -y copr disable "che/nerd-fonts"
-
-# install Thorium browser (SSE3 non-beta build)
-THORIUM_TAG="M130.0.6723.174"
-dnf5 -y install <(curl -sL https://api.github.com/repos/Alex313031/thorium/releases/tags/${THORIUM_TAG} | \
-  jq -r '.assets[] | select(.name? | match("thorium-browser_.*_SSE3.rpm")) | .browser_download_url' | \
-  wget -qi -)
-unset -v THORIUM_TAG
+# TODO: make configuration files
