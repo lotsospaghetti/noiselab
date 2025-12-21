@@ -76,10 +76,6 @@ dnf5 -y install --from-repo="fedora-cdrtools" \
   schily-libs
 dnf5 -y versionlock add cdrecord mkisofs cdda2wav schily-libs
 
-# adjust miscellaneous services
-systemctl --global enable podman.socket
-systemctl --global enable systemd-tmpfiles-setup.service
-
 # install from COPRs
 #dnf5 -y remove --no-autoremove bluez
 #dnf5 -y copr enable "ycollet/audinux"
@@ -90,3 +86,8 @@ systemctl --global enable systemd-tmpfiles-setup.service
 dnf5 -y copr enable "bazzite-org/bazzite"
 dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:bazzite-org:bazzite" xwiimote-ng
 dnf5 -y copr disable "bazzite-org/bazzite"
+
+# adjust services
+systemctl --global enable podman.socket
+systemctl --global enable systemd-tmpfiles-setup.service
+systemctl --global enable scx_loader.service
