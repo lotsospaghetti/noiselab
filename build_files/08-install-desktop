@@ -65,7 +65,6 @@ terra_pkgs=(
   cleartype-fonts
   codium
   codium-marketplace
-  feishin
   geist-font
   ghostty
   ghostty-bash-completion
@@ -79,6 +78,7 @@ terra_pkgs=(
   mission-center
   mpvpaper
   ms-core-fonts
+  maple-fonts
   netto
   nerd-fonts
   open-in-mpv
@@ -89,7 +89,6 @@ terra_pkgs=(
   swww
   swww-bash-completion
   swww-zsh-completion
-  trackiton-waveform
   walker
   elephant
   elephant-calc

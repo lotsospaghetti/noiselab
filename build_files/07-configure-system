@@ -23,6 +23,7 @@ pkgs=(
   fastfetch
   vim
   nano
+  tealdeer
 )
 
 terra_pkgs=(
@@ -42,6 +43,7 @@ terra_pkgs=(
   android-udev-rules
   scx-scheds
   scx-tools
+  logiops
   sndio
   starship
   topgrade
@@ -77,11 +79,11 @@ dnf5 -y install --from-repo="fedora-cdrtools" \
 dnf5 -y versionlock add cdrecord mkisofs cdda2wav schily-libs
 
 # install from COPRs
-#dnf5 -y remove --no-autoremove bluez
-#dnf5 -y copr enable "ycollet/audinux"
-#dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez-mao
-#dnf5 -y copr disable "ycollet/audinux"
-#dnf5 versionlock add bluez-mao
+dnf5 -y remove --no-autoremove bluez
+dnf5 -y copr enable "ycollet/audinux"
+dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" bluez-mao
+dnf5 -y copr disable "ycollet/audinux"
+dnf5 versionlock add bluez-mao
 
 dnf5 -y copr enable "bazzite-org/bazzite"
 dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:bazzite-org:bazzite" xwiimote-ng
@@ -90,4 +92,4 @@ dnf5 -y copr disable "bazzite-org/bazzite"
 # adjust services
 systemctl --global enable podman.socket
 systemctl --global enable systemd-tmpfiles-setup.service
-systemctl --global enable scx_loader.service
+#systemctl --global enable scx_loader.service
