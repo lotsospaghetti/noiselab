@@ -2,56 +2,58 @@
 
 set -eoux pipefail
 
-# create grub2-mkconfig shim so kernel-mao postinstall doesn't fail
-GRUBSCRIPT="$(whereis grub2-mkconfig | cut -d' ' -f2)"
-mv "${GRUBSCRIPT}" "${GRUBSCRIPT}".old
-printf '%s\n' '#!/usr/bin/sh' 'exit 0' > "${GRUBSCRIPT}"
-chmod +x "${GRUBSCRIPT}"
-
-# valid KERNEL_FLAVOR variables: lqx, xan, bazzite...? (bazzite kernel repo was recently archived so idk about that)
+# valid KERNEL_FLAVOR variables: default, lqx, xan, bazzite...? (bazzite kernel repo was recently archived so idk about that)
 # valid NVIDIA_VERSION variables: none, open, lts
 
-dnf5 -y remove --no-autoremove kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-tools kernel-tools-libs
+if [[ "$KERNEL_FLAVOR" != "default" ]]; then
+  # create grub2-mkconfig shim so kernel-mao postinstall doesn't fail
+  GRUBSCRIPT="$(whereis grub2-mkconfig | cut -d' ' -f2)"
+  mv "${GRUBSCRIPT}" "${GRUBSCRIPT}".old
+  printf '%s\n' '#!/usr/bin/sh' 'exit 0' > "${GRUBSCRIPT}"
+  chmod +x "${GRUBSCRIPT}"
 
-if [[ "$KERNEL_FLAVOR" == "bazzite" ]]; then
-  dnf5 -y install \
-    /tmp/bazzite-kernel/kernel-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-core-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-modules-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-modules-core-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-modules-extra-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-devel-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-devel-matched-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-tools-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-tools-libs-[0-9]*.rpm \
-    /tmp/bazzite-kernel/kernel-common-[0-9]*.rpm
+  dnf5 -y remove --no-autoremove kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-tools kernel-tools-libs
 
-  if [[ "$NVIDIA_VERSION" == "open" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-[0-9]*.rpm
-  elif [[ "$NVIDIA_VERSION" == "lts" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi
-else
-  dnf5 -y copr enable "ycollet/audinux"
-  dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" kernel-"${KERNEL_FLAVOR}"-mao rt-tests
-  dnf5 -y copr disable "ycollet/audinux"
-fi
+  if [[ "$KERNEL_FLAVOR" == "bazzite" ]]; then
+    dnf5 -y install \
+      /tmp/bazzite-kernel/kernel-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-core-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-modules-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-modules-core-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-modules-extra-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-devel-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-devel-matched-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-tools-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-tools-libs-[0-9]*.rpm \
+      /tmp/bazzite-kernel/kernel-common-[0-9]*.rpm
 
-# install nvidia drivers if applicable
-if [[ "$NVIDIA_VERSION" != "none" && "$KERNEL_FLAVOR" != "bazzite" ]]; then
-  dnf5 -y install nvidia-driver nvidia-settings akmod-nvidia nvidia-driver-libs.i686
-  # unsure what negativo17 repo installs by default so if it's supposed to be one thing
-  # but it's the other then just swap it
-  if [[ "$NVIDIA_VERSION" == "open" && "$(modinfo -l nvidia)" == "NVIDIA" ]]; then
-    sed -i -e 's/kernel$/kernel-open/g' /etc/nvidia/kernel.conf && akmods --rebuild
-  elif [[ "$NVIDIA_VERSION" == "lts" && "$(modinfo -l nvidia)" == "Dual MIT/GPL" ]]; then
-    sed -i -e 's/kernel-open$/kernel/g' /etc/nvidia/kernel.conf && akmods --rebuild
+    if [[ "$NVIDIA_VERSION" == "open" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-[0-9]*.rpm
+    elif [[ "$NVIDIA_VERSION" == "lts" ]]; then dnf5 -y install /tmp/bazzite-kernel/kernel-nvidia-closed-lts-[0-9]*.rpm; fi
+  else
+    dnf5 -y copr enable "ycollet/audinux"
+    dnf5 -y install --from-repo="copr:copr.fedorainfracloud.org:ycollet:audinux" kernel-"${KERNEL_FLAVOR}"-mao rt-tests
+    dnf5 -y copr disable "ycollet/audinux"
   fi
-fi
-if [[ "$NVIDIA_VERSION" != "none" ]]; then
-  mkdir -p /usr/lib/bootc/kargs.d/ && echo 'kargs = ["nvidia-drm.modeset=1"]' > /usr/lib/bootc/kargs.d/03-nvidia-drm.toml
-fi
 
-dnf5 versionlock add "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
+  # install nvidia drivers if applicable
+  if [[ "$NVIDIA_VERSION" != "none" && "$KERNEL_FLAVOR" != "bazzite" ]]; then
+    dnf5 -y install nvidia-driver nvidia-settings akmod-nvidia nvidia-driver-libs.i686
+    # unsure what negativo17 repo installs by default so if it's supposed to be one thing
+    # but it's the other then just swap it
+    if [[ "$NVIDIA_VERSION" == "open" && "$(modinfo -l nvidia)" == "NVIDIA" ]]; then
+      sed -i -e 's/kernel$/kernel-open/g' /etc/nvidia/kernel.conf && akmods --rebuild
+    elif [[ "$NVIDIA_VERSION" == "lts" && "$(modinfo -l nvidia)" == "Dual MIT/GPL" ]]; then
+      sed -i -e 's/kernel-open$/kernel/g' /etc/nvidia/kernel.conf && akmods --rebuild
+    fi
+  fi
+  if [[ "$NVIDIA_VERSION" != "none" ]]; then
+    mkdir -p /usr/lib/bootc/kargs.d/ && echo 'kargs = ["nvidia-drm.modeset=1"]' > /usr/lib/bootc/kargs.d/03-nvidia-drm.toml
+  fi
 
-# restore real grub2-mkconfig
-rm -f "${GRUBSCRIPT}"
-mv "${GRUBSCRIPT}".old "${GRUBSCRIPT}"
-unset -v GRUBSCRIPT
+  dnf5 versionlock add "$(rpm -qa --queryformat='%{NAME} ' 'kernel-*')"
+
+  # restore real grub2-mkconfig
+  rm -f "${GRUBSCRIPT}"
+  mv "${GRUBSCRIPT}".old "${GRUBSCRIPT}"
+  unset -v GRUBSCRIPT
+fi
