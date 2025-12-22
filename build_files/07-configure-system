@@ -6,9 +6,6 @@ pkgs=(
   jack-audio-connection-kit
   jack-audio-connection-kit-dbus
   pipewire-jack-audio-connection-kit
-  ecryptfs-utils
-  gocryptfs
-  sirikali
   libsecret
   sox
   yq
@@ -18,7 +15,6 @@ pkgs=(
   yt-dlp-bash-completion
   yt-dlp-zsh-completion
   input-remapper
-  v4l2loopback
   ufw
   fastfetch
   vim
