@@ -32,7 +32,9 @@ add-user-to-groups:
         sudo usermod -a -G "$g" $USER
     done
 
-# Install Renoise, a nonfree music-tracker DAW. Requires you to download the installer from https://backstage.renoise.com
+alias upgrade-renoise := install-renoise
+
+# Install/upgrade Renoise, a nonfree music-tracker DAW. Requires you to download the installer from https://backstage.renoise.com
 [group("apps")]
 install-renoise INSTALLER="":
     #!/usr/bin/bash
@@ -47,6 +49,23 @@ install-renoise INSTALLER="":
 
     INSTALLER_PATH=$(dirname $INSTALLER) INSTALLER_ARCHIVE=$(basename $INSTALL) \
         distrobox-assemble create --replace --file /etc/distrobox/renoise.ini
+
+alias rebuild-renoise := reinstall-renoise
+
+# Rebuild Renoise container using a cached installer archive
+[group("apps")]
+reinstall-renoise:
+    #!/usr/bin/bash
+    INSTALLER_PATH="$HOME/.local/share/Renoise/installers"
+    if [[ -d $INSTALLER_PATH ]]; then
+        VERSION="$(ls $INSTALLER_PATH | grep rns_ | sed -e 's/rns_//' -e 's/_linux_x86_64.tar.gz//' | tail -n1)"
+        if [[ -f "${INSTALLER_PATH}/rns_${VERSION}_linux_x86_64.tar.gz" ]]; then
+            distrobox-assemble create --replace --file /etc/distrobox/renoise.ini && exit 0 || exit 1
+        fi
+    fi
+
+    # if script hasn't exited by this point there wasn't an existing installer archive available on-disk
+    ujust install-renoise
 
 # Install additional apps using noisebox, the Distrobox companion to noiselab
 [group("apps")]
