@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: noiselab
-description: Multimedia-focused image configured for pro audio
+description: Pro audio image optimized for low-spec devices
 
 base-image: ghcr.io/ublue-os/base-main
 image-version: 44
@@ -11,5 +11,49 @@ modules:
     files:
       - source: system
         destination: /
+
+  - type: justfiles
+    validate: true
+    install: true
+
+  - type: kargs
+    arch: x86_64, aarch64
+    kargs:
+      - nosmt
+      - preempt=full
+      - nohz_full=all
+      - threadirqs
+      - nowatchdog
+      - pcie_aspm=off
+      - nosoftlockup
+      - idle=poll
+      - processor.max_cstate=1
+      - systemd.unified_cgroup_hierarchy=0
+      - usbcore.autosuspend=-1
+
+  - type: systemd
+    system:
+      enabled:
+        - realtime-entsk.service
+        - realtime-setup.service
+
+  - type: dnf
+    install:
+      packages:
+        - realtime-setup
+        - htop
+    group-install:
+      with-optional: false
+      allow-erasing: true
+      packages:
+        - audio
+        - lxqt-desktop
+        - lxqt-media
+
+  - type: default-flatpaks
+    configurations:
+      - scope: system
+        install:
+          - io.github.gaheldev.Millisecond
 
   - type: signing
