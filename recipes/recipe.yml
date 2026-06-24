@@ -31,12 +31,6 @@ modules:
       - systemd.unified_cgroup_hierarchy=0
       - usbcore.autosuspend=-1
 
-  - type: systemd
-    system:
-      enabled:
-        - realtime-entsk.service
-        - realtime-setup.service
-
   - type: dnf
     install:
       packages:
@@ -49,6 +43,12 @@ modules:
         - audio
         - lxqt-desktop
         - lxqt-media
+
+  - type: systemd
+    system:
+      enabled:
+        - realtime-entsk.service
+        - realtime-setup.service
 
   - type: default-flatpaks
     configurations:
