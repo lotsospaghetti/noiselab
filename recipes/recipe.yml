@@ -84,7 +84,6 @@ modules:
         - jack-link
         - jack_capture
         - jack_delay
-        - jack_mixer
         - jack_utils
         - jackctlmmc
         - jackass
