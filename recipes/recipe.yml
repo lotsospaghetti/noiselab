@@ -77,42 +77,42 @@ modules:
     install:
       skip-unavailable: true
       allow-erasing: true
-        packages:
-          - Carla-mao
-          - raysession
-          - millisecond
-          - jack-link
-          - jack_capture
-          - jack_delay
-          - jack_mixer
-          - jack_utils
-          - jackctlmmc
-          - jackass
-          - midiwake
-          - timemachine
-          - yabridge
-          - yabridge-tui
-          - wineasio
-          - zrythm
-          - lmms-mao-weekly
-          - BespokeSynth
-          - tenacity
-          - mamba
-          - samplehive
-          - loopino
-          - lsp-plugins
-          - dpf-plugins
-          - DISTRHO-Ports
-          - cardinal
-          - surge-xt
-          - amsynth
-          - guitarix
-          - hamburger
-          - valentine
-          - dragonfly-reverb
-          - puredata
-          - plugdata
-          - orca-lang
+      packages:
+        - Carla-mao
+        - raysession
+        - millisecond
+        - jack-link
+        - jack_capture
+        - jack_delay
+        - jack_mixer
+        - jack_utils
+        - jackctlmmc
+        - jackass
+        - midiwake
+        - timemachine
+        - yabridge
+        - yabridge-tui
+        - wineasio
+        - zrythm
+        - lmms-mao-weekly
+        - BespokeSynth
+        - tenacity
+        - mamba
+        - samplehive
+        - loopino
+        - lsp-plugins
+        - dpf-plugins
+        - DISTRHO-Ports
+        - cardinal
+        - surge-xt
+        - amsynth
+        - guitarix
+        - hamburger
+        - valentine
+        - dragonfly-reverb
+        - puredata
+        - plugdata
+        - orca-lang
 
   - type: systemd
     system:
