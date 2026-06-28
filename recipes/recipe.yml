@@ -3,7 +3,7 @@
 name: noiselab
 description: Pro audio image optimized for low-spec devices
 
-base-image: ghcr.io/ublue-os/base-main
+base-image: ghcr.io/ublue-os/silverblue-main
 image-version: 44
 
 modules:
@@ -15,6 +15,14 @@ modules:
   - type: justfiles
     validate: true
     install: true
+
+  - type: akmods
+    base: main
+    install:
+      - v4l2loopback
+      - zfs
+      - xone
+      - gcadapter_oc
 
   - type: kargs
     arch: x86_64, aarch64
@@ -31,29 +39,105 @@ modules:
       - systemd.unified_cgroup_hierarchy=0
       - usbcore.autosuspend=-1
 
+  - type: dnf
+    repos:
+      cleanup: true
+      nonfree: negativo17
+    install:
+      allow-erasing: true
+      packages:
+        - alsa-firmware
+        - alsa-tools
+        - alsa-utils
+        - alsamixergui
+        - jack-mixer
+        - pavucontrol
+        - qjackctl
+        - kernel-tools
+        - realtime-setup
+        - pipewire-alsa
+        - pipewire-jack-audio-connection-kit
+        - pipewire-pulseaudio
+        - pipewire-utils
+        - pipewire-v4l2
+        - wireplumber
+        - tuned-gtk
+        - tuned-profiles-cpu-partitioning
+        - tuned-profiles-realtime
+        - htop
+        - multimedia-menus
+        - ardour9
+        - mixxx
+        - yoshimi
+        - fluidsynth
+        - fluid-soundfont-gm
+        - ffmpeg
+        - cdrecord
+        - mkisofs
+        - cdda2wav
+        - rar
+        - gnome-menus
+
+  - type: dnf
+    repos:
+      copr:
+        - ycollet/audinux
+    install:
+      repo: copr:copr.fedorainfracloud.org:ycollet:audinux
+      skip-unavailable: true
+      allow-erasing: true
+      packages:
+        - Carla-mao
+        - raysession
+        - millisecond
+        - jack-link
+        - jack_capture
+        - jack_delay
+        - jack_mixer
+        - jack_utils
+        - jackctlmmc
+        - jackass
+        - midiwake
+        - timemachine
+        - rt-test
+        - yabridge
+        - yabridge-tui
+        - wineasio
+        - zrythm
+        - lmms-mao-weekly
+        - BespokeSynth
+        - tenacity
+        - mamba
+        - samplehive
+        - loopino
+        - lsp-plugins
+        - dpf-plugins
+        - DISTRHO-Ports
+        - cardinal
+        - surge-xt
+        - vitalium
+        - amsynth
+        - guitarix
+        - hamburger
+        - valentine
+        - dragonfly-reverb
+        - zita-at1
+        - zita-rev1
+        - puredata
+        - plugdata
+        - orca-lang
+
   - type: systemd
     system:
       enabled:
         - realtime-entsk.service
         - realtime-setup.service
 
-  - type: dnf
+  - type: gnome-extensions
     install:
-      packages:
-        - realtime-setup
-        - htop
-    group-install:
-      with-optional: false
-      allow-erasing: true
-      packages:
-        - audio
-        - lxqt-desktop
-        - lxqt-media
-
-  - type: default-flatpaks
-    configurations:
-      - scope: system
-        install:
-          - io.github.gaheldev.Millisecond
+      - TuneD Profile Switcher
+      - Pipewire Settings
+      - Apps Menu
+      - PaperWM
 
   - type: signing
