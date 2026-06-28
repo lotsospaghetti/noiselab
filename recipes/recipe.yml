@@ -16,14 +16,6 @@ modules:
     validate: true
     install: true
 
-  - type: akmods
-    base: main
-    install:
-      - v4l2loopback
-      - zfs
-      - xone
-      - gcadapter_oc
-
   - type: kargs
     arch: x86_64, aarch64
     kargs:
@@ -59,7 +51,6 @@ modules:
         - pipewire-jack-audio-connection-kit
         - pipewire-pulseaudio
         - pipewire-utils
-        - pipewire-v4l2
         - wireplumber
         - tuned-gtk
         - tuned-profiles-cpu-partitioning
