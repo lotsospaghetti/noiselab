@@ -7,3 +7,12 @@ Anything having to do with Fedora specifically was likely taken from Audiojunkie
 - Default kernel arguments: [Linux as a Pro Audio Workstation in 2025: The Complete, No-Nonsense Guide](https://gearspace.com/board/showpost.php?p=17633244&postcount=2&s=0bd38421a90c200c2fec9da6604fec93)
 
 The kargs used here mostly seem like they'd make for sane defaults and it's quite comprehensive, only missing the `preempt=full` karg because that guide assumes you're using a custom realtime kernel.
+
+*That being said,* the guide mentions you can use `usbcore.quirks=XXXX:YYYY:u` for "special handling" of USB audio interfaces but never seems to specify what `u` actually does. When I looked through the [massive list of kernel parameters](https://web.git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/Documentation/admin-guide/kernel-parameters.txt) in the official Linux kernel docs I found this:
+
+```
+usb-storage.quirks=
+	[...]
+	u = IGNORE_UAS (don't bind to the uas driver);
+```
+But there wasn't any such option for `usbcore.quirks`, perhaps that guide's author assumed that option was present? I'm not knowlegable enough to say for certain what options here *could* benefit audio interfaces so I'm going to stop thinking about it for now.

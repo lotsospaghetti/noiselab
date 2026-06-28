@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+## Set default kargs for all images
+
+modules:
+  - type: kargs
+    arch: x86_64, aarch64
+    kargs:
+      - nosmt
+      - threadirqs
+      - nowatchdog
+      - pcie_aspm=off
+      - nosoftlockup
+      - idle=poll
+      - processor.max_cstate=1
+      - systemd.unified_cgroup_hierarchy=0
+      - usbcore.autosuspend=-1

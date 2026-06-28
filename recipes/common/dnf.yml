@@ -1,38 +1,11 @@
 ---
-# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-name: noiselab
-description: Pro audio image optimized for low-spec devices
-
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 44
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+## Install DNF packages for all images
 
 modules:
-  - type: files
-    files:
-      - source: system
-        destination: /
-
-  - type: justfiles
-    validate: true
-    install: true
-
-  - type: kargs
-    arch: x86_64, aarch64
-    kargs:
-      - nosmt
-      - preempt=full
-      - nohz_full=all
-      - threadirqs
-      - nowatchdog
-      - pcie_aspm=off
-      - nosoftlockup
-      - idle=poll
-      - processor.max_cstate=1
-      - systemd.unified_cgroup_hierarchy=0
-      - usbcore.autosuspend=-1
-
   - type: dnf
     repos:
+      nonfree: negativo17
       cleanup: true
     install:
       allow-erasing: true
@@ -46,16 +19,10 @@ modules:
         - qjackctl
         - kernel-tools
         - realtime-setup
-        - pipewire-alsa
-        - pipewire-jack-audio-connection-kit
-        - pipewire-pulseaudio
-        - pipewire-utils
-        - wireplumber
         - tuned-gtk
         - tuned-profiles-cpu-partitioning
         - tuned-profiles-realtime
         - htop
-        - multimedia-menus
         - ardour9
         - mixxx
         - yoshimi
@@ -68,7 +35,6 @@ modules:
         - mkisofs
         - cdda2wav
         - rar
-        - gnome-menus
 
   - type: dnf
     repos:
@@ -112,17 +78,3 @@ modules:
         - puredata
         - plugdata
         - orca-lang
-
-  - type: systemd
-    system:
-      enabled:
-        - realtime-entsk.service
-        - realtime-setup.service
-
-  - type: gnome-extensions
-    install:
-      - Pipewire Settings
-      - Apps Menu
-      - PaperWM
-
-  - type: signing

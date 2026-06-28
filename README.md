@@ -1,5 +1,8 @@
 # noiselab &nbsp; [![bluebuild build badge](https://github.com/blue-build/template/actions/workflows/build.yml/badge.svg)](https://github.com/blue-build/template/actions/workflows/build.yml)
 
+> [!WARNING]
+> This image IS NOT intended for general desktop or networked use! It prioritizes realtime audio handling almost entirely above anything else, **including security!** Use it at your own risk, preferrably on decdicated hardware isolated from your primary network/infrastructure.
+
 A WIP Fedora bootc project to make a Linux pro audio image geared towards low-powered devices and streamlined setup. This is a follow-up to a [similar project](https://github.com/lotsospaghetti/noiselab-archive) I tried to make a while back, but this time around my only real goal is to turn a Microsoft Surface into a makeshift VST effects box that's reliable enough for live performance use. I figure an image-based Linux is the right tool for this application so... yeah.
 
 ## Installation

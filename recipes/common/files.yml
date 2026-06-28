@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+## Move common system files into all images
+
+modules:
+  - type: files
+    files:
+      - source: system/common
+        destination: /
+
+  - type: justfiles
+    validate: true
+    install: true
+    include:
+      - noiselab.just

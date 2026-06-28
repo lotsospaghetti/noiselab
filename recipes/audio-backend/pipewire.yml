@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+## Installs and configures PipeWire's JACK implementation
+
+modules:
+  - type: dnf
+    install:
+      allow-erasing: true
+      packages:
+        - pipewire-jack-audio-connection-kit
+        - pipewire-alsa
+        - pipewire-pulseaudio
+        - pipewire-utils
+        - wireplumber

@@ -1,6 +1,6 @@
-# Apply the necessary groups to the current user
+# Apply the realtime group to the current user
 [group('system')]
-add-audio:
+add-user-to-realtime-group:
     sudo usermod -a -G realtime $(whoami)
 
 # TODO: shortcuts for common realtime/audio benchmarks
@@ -15,8 +15,5 @@ edit-kargs:
 # TODO: CPU isolation kernel settings
 
 # TODO: apply mitigations=off with a scary warning message
-
-# TODO: apply usbcore.quirks=<vendor:product>:u for giving usb interfaces special priority,
-#       use something like 'lsusb | gum choose' for device selection
 
 # TODO: shortcut for searching for and layering packages from ycollet/audinux COPR

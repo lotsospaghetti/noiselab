@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+## The "default" noiselab image, not straying very far from Fedora 44's usual stack
+## - Arch: x86_64
+## - Kernel: ublue-main
+## - NVIDIA: No
+## - Audio: Pipewire
+## - Desktop: GNOME (Wayland)
+
+name: noiselab
+description: Pro audio image optimized for low-spec devices
+
+base-image: ghcr.io/ublue-os/silverblue-main
+image-version: 44
+
+modules:
+  - type: script
+    snippets:
+      - "echo 'Remove Negativo17 repo to prevent common/dnf.yml from breaking' && rm -f /etc/yum.repos.d/negativo17-fedora-multimedia.repo"
+
+  - from-file: common/files.yml
+  - from-file: kernel/ublue-main.yml
+  - from-file: common/kargs.yml
+  - from-file: audio-backend/pipewire.yml
+  - from-file: common/dnf.yml
+  - from-file: common/services.yml
+
+  - type: dnf
+    install:
+      allow-erasing: true
+      packages:
+        - multimedia-menus
+        - gnome-menus
+    remove:
+      packages:
+        - firefox
+        - firefox-langpacks
+
+  - type: gnome-extensions
+    install:
+      - Pipewire Settings
+      - Apps Menu
+      - PaperWM
+
+  - type: signing

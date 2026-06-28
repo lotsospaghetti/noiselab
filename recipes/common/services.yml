@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+## Enable or modify services for all images
+
+modules:
+  - type: systemd
+    system:
+      enabled:
+        - realtime-entsk.service
+        - realtime-setup.service
