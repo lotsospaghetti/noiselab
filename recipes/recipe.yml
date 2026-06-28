@@ -34,7 +34,6 @@ modules:
   - type: dnf
     repos:
       cleanup: true
-      nonfree: negativo17
     install:
       allow-erasing: true
       packages:
