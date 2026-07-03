@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
-## Configuration and akmods for generic kernels
+## Configuration and akmods? for generic kernels
 
 modules:
   - from-file: common/kargs.yml
@@ -9,8 +9,3 @@ modules:
     arch: x86_64, aarch64
     kargs:
       - preempt=full
-
-  - type: akmods
-    base: main
-    install:
-      - v4l2loopback
