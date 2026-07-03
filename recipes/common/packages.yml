@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
-## Install DNF packages for all images
+## Install packages and package managers for all images
 
 modules:
   - type: dnf
@@ -8,7 +8,6 @@ modules:
       nonfree: negativo17
       cleanup: true
     install:
-      allow-erasing: true
       packages:
         - alsa-firmware
         - alsa-tools
@@ -22,7 +21,7 @@ modules:
         - tuned-gtk
         - tuned-profiles-cpu-partitioning
         - tuned-profiles-realtime
-        - htop
+        - gum
         - ardour9
         - mixxx
         - yoshimi
@@ -53,12 +52,10 @@ modules:
         - jack_utils
         - jackctlmmc
         - jackass
-        - midiwake
         - timemachine
         - yabridge
         - yabridge-tui
         - wineasio
-        - zrythm
         - lmms-mao-weekly
         - BespokeSynth
         - tenacity
@@ -78,3 +75,7 @@ modules:
         - puredata
         - plugdata
         - orca-lang
+
+  - type: soar
+    auto-upgrade: true
+    upgrade-interval: "12h"
