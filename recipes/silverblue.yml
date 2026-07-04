@@ -34,22 +34,31 @@ modules:
       skip-unavailable: true
       packages:
         - librewolf
+        - celluloid
+        - alacarte
         - gnome-menus
         - gnome-extensions-apps
-        - gnome-shell-extension-pipewire-settings
-        - gnome-shell-extension-caffeine
-        - gnome-shell-extension-dash-to-dock
-        - gnome-shell-extension-apps-menu
-        - gnome-shell-extension-appindicator
-        - gnome-shell-extension-drive-menu
-        - gnome-shell-extension-just-perfection
     remove:
+      auto-remove: true
       packages:
         - firefox
         - firefox-langpacks
+        - fedora-bookmarks
+        - fedora-workstation-backgrounds
+        - gnome-tour
+        - gnome-user-docs
+        - gnome-backgrounds
+        - gnome-classic-session
 
   - type: gnome-extensions
     install:
+      - 7699 # Pipewire Settings
+      - 517 # Caffeine
+      - 307 # Dash to Dock
+      - 6 # Apps Menu
+      - 615 # AppIndicator and KStatusNotifierItem Support
+      - 7 # Removable Drive Menu
+      - 3843 # Just Perfection
       - 6099 # PaperWM
       - 5895 # App Hider
       - 973 # Switcher

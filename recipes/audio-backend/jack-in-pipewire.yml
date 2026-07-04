@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+## Installs and configures actual JACK to run within Pipewire stack
+
+modules:
+  - type: dnf
+    install:
+      allow-erasing: true
+      packages:
+        - jack-audio-connection-kit
+        - pipewire-plugin-jack

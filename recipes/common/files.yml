@@ -13,3 +13,7 @@ modules:
     install: true
     include:
       - noiselab.just
+
+  - type: script
+    snippets:
+      - "echo 'Install yabridge-bottles-wineloader script'; curl 'https://raw.githubusercontent.com/microfortnight/yabridge-bottles-wineloader/refs/heads/main/wineloader.sh' > /usr/bin/wineloader && chmod +x /usr/bin/wineloader"

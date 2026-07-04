@@ -8,6 +8,7 @@ modules:
       nonfree: negativo17
       cleanup: true
     install:
+      install-weak-deps: false
       packages:
         - alsa-firmware
         - alsa-tools
@@ -18,22 +19,41 @@ modules:
         - qjackctl
         - kernel-tools
         - realtime-setup
+        - gamemode
         - tuned-gtk
         - tuned-profiles-cpu-partitioning
         - tuned-profiles-realtime
         - gum
+        - yq
         - ardour9
         - mixxx
+        - mpv
         - yoshimi
         - zita-at1
         - zita-rev1
         - fluidsynth
         - fluid-soundfont-gm
+        - flac
         - ffmpeg
         - cdrecord
         - mkisofs
         - cdda2wav
         - rar
+      exclude:
+        - jack-audio-connection-kit
+        - pipewire-jack-audio-connection-kit
+    remove:
+      auto-remove: true
+      packages:
+        - flatpak
+
+  - type: dnf
+    install:
+      install-weak-deps: false
+      packages:
+        - bottles
+      exclude:
+        - flatpak
 
   - type: dnf
     repos:
@@ -55,17 +75,14 @@ modules:
         - timemachine
         - yabridge
         - yabridge-tui
-        - wineasio
         - lmms-mao-weekly
         - BespokeSynth
         - tenacity
         - mamba
         - samplehive
-        - loopino
         - lsp-plugins
         - dpf-plugins
         - DISTRHO-Ports
-        - cardinal
         - surge-xt
         - amsynth
         - guitarix
@@ -73,8 +90,10 @@ modules:
         - valentine
         - dragonfly-reverb
         - puredata
-        - plugdata
         - orca-lang
+      exclude:
+        - jack-audio-connection-kit
+        - pipewire-jack-audio-connection-kit
 
   - type: soar
     auto-upgrade: true

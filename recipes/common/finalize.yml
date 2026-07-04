@@ -2,6 +2,15 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
 
 modules:
+  - type: files
+    files:
+      - source: system/overrides
+        destination: /
+
+  - type: script
+    snippets:
+      - "echo 'Create ujust alias if necessary'; if [[ -x /usr/bin/blujust ]]; then ln -s /usr/bin/blujust /usr/bin/ujust; fi"
+
   - type: os-release
     properties:
       ID: noiselab

@@ -7,7 +7,3 @@ modules:
       allow-erasing: true
       packages:
         - pipewire-jack-audio-connection-kit
-        - pipewire-alsa
-        - pipewire-pulseaudio
-        - pipewire-utils
-        - wireplumber
