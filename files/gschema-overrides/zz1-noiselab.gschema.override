@@ -1,5 +1,5 @@
 [org.gnome.shell]
 disabled-extensions=['background-logo@fedorahosted.org', 'places-menu@gnome-shell-extensions.gcampax.github.com']
 enabled-extensions=['app-hider@lynith.dev', 'appindicatorsupport@rgcjonas.gmail.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'caffeine@patapon.info', 'dash-to-dock@micxgx.gmail.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'pipewire-settings@gaheldev.github.com']
-favorite-apps=['org.gnome.Nautilus.desktop', 'SampleHive.desktop', 'librewolf.desktop', 'org.gnome.Ptyxis.desktop', 'ardour9.desktop', 'lmms.desktop', 'tenacity.desktop', 'carla.desktop', 'raysession.desktop']
+favorite-apps=['org.gnome.Nautilus.desktop', 'librewolf.desktop', 'org.gnome.Ptyxis.desktop', 'ardour9.desktop', 'lmms.desktop', 'tenacity.desktop', 'carla.desktop', 'raysession.desktop']
 last-selected-power-profile='performance'

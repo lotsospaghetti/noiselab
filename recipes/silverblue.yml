@@ -35,7 +35,6 @@ modules:
       packages:
         - librewolf
         - celluloid
-        - alacarte
         - gnome-menus
         - gnome-text-editor
         - gnome-extensions-app
@@ -50,6 +49,7 @@ modules:
         - gnome-user-docs
         - gnome-backgrounds
         - gnome-classic-session
+        - yelp
 
   - type: gnome-extensions
     install:
