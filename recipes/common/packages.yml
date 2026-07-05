@@ -68,7 +68,7 @@ modules:
         - BespokeSynth
         - tenacity
         - mamba
-        - samplecat
+        - samplehive
         - lsp-plugins
         - dpf-plugins
         - DISTRHO-Ports
