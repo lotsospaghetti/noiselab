@@ -3,7 +3,6 @@ Name=SampleHive
 GenericName=Sample manager
 Comment=Sample files manager
 Exec=env WXSUPPRESS_SIZER_FLAGS_CHECK=1 SampleHive
-icon=SampleHive
 Terminal=false
 Type=Application
-Categories=AudioVideo;Audio;
+Categories=AudioVideo

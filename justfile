@@ -31,12 +31,11 @@ generate-recipe-iso RECIPE='silverblue' PLATFORM='amd64': clean
 # write a bootable installer to removable storage
 write-usb-install-media ISO='noiselab-latest.iso':
     #!/usr/bin/env sh
-    set -euo pipefail
+    set -eo pipefail
     if ! [ -f '{{ ISO }}' ]; then
         echo '{{ style('error') }}ISO file "{{ ISO }}" not found{{ NORMAL }}'
         exit 1
     fi
-    declare -a removable_drives
     for dev in $(ls /sys/block); do
         if [ $(cat /sys/block/${dev}/removable) -eq 1 ] && \
             [ $(sudo lsblk /dev/${dev} --output SIZE --bytes --nodeps --noheadings) -gt $(ls -s '{{ ISO }}' | cut -d' ' -f1) ]; then
@@ -51,7 +50,7 @@ write-usb-install-media ISO='noiselab-latest.iso':
     target="$(echo "${target}" | cut -d'(' -f 1 | xargs)"
     if ! gum confirm "Are you sure you'd like to overwrite drive $target?"; then
         echo 'Operation canceled' && exit 0; fi
-    echo "Writing contents of '{{ ISO }}' to drive ${target}..."
+    echo "{{ style('warning') }}Writing contents of '{{ ISO }}' to drive ${target}...{{ NORMAL }}"
     for mp in $(lsblk "$target" --output MOUNTPOINTS --noheadings); do
         sudo umount -qf "$mp" || exit 1; done
     sudo dd if='{{ justfile_dir() }}/{{ ISO }}' of="$target" bs=4M conv=fsync oflag=direct status=progress

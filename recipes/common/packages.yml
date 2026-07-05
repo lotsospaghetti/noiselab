@@ -39,21 +39,10 @@ modules:
         - mkisofs
         - cdda2wav
         - rar
+        - bottles
       exclude:
         - jack-audio-connection-kit
         - pipewire-jack-audio-connection-kit
-    remove:
-      auto-remove: true
-      packages:
-        - flatpak
-
-  - type: dnf
-    install:
-      install-weak-deps: false
-      packages:
-        - bottles
-      exclude:
-        - flatpak
 
   - type: dnf
     repos:

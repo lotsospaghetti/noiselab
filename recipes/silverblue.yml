@@ -37,7 +37,8 @@ modules:
         - celluloid
         - alacarte
         - gnome-menus
-        - gnome-extensions-apps
+        - gnome-text-editor
+        - gnome-extensions-app
     remove:
       auto-remove: true
       packages:
@@ -63,5 +64,7 @@ modules:
       - 5895 # App Hider
       - 973 # Switcher
       - 4688 # Focus Follows Workspace
+
+  - type: gschema-overrides
 
   - from-file: common/finalize.yml
