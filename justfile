@@ -49,7 +49,7 @@ write-usb-install-media ISO='noiselab-latest.iso': _create-iso-dir
     #!/usr/bin/env sh
     set -eo pipefail
     # sanity check: ISO checksum file exists and matches the given ISO
-    if ! [ -f '{{ ISO }}-CHECKSUM' ] || ! sha256sum -check -quiet '{{ ISO }}-CHECKSUM' 2>/dev/null; then
+    if ! [ -f '{{ ISO }}-CHECKSUM' ] || ! sha256sum --check --quiet '{{ ISO }}-CHECKSUM' 2>/dev/null; then
         echo '{{ style('error') }}Checksum of ISO file {{ ISO }} not valid, or {{ ISO }}-CHECKSUM not found{{ NORMAL }}'
         exit 1
     fi
