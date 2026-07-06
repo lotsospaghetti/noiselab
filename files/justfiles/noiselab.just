@@ -71,7 +71,7 @@ edit-mitigations ACTION='enable':
     #!/usr/bin/env bash
     if [[ '{{ ACTION }}' == 'disable' ]]; then
         echo "{{ style('warning') }}This action will add the 'mitigations=off' kernel argument, which will improve system performance{{ NORMAL }}"
-        echo "{{ style('warning') }}BUT AT THE COST OF MAKING YOUR SYSTEM SIGNIFICANTLY LESS SECURE!!!{{ NORMAL }}"
+        echo "{{ style('error') }}BUT AT THE COST OF MAKING YOUR SYSTEM SIGNIFICANTLY LESS SECURE!!!{{ NORMAL }}"
         echo "{{ style('warning') }}You should ONLY EVER do this on fully offline systems dedicated to realtime audio work!{{ NORMAL }}"
         echo "{{ style('warning') }}This script will automatically drop all network connections and disable wireless before applying the karg.{{ NORMAL }}"
         echo
