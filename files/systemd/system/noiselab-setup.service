@@ -1,0 +1,10 @@
+[Unit]
+Description=Prepare system for real-time audio
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash /usr/bin/noiselab/noiselab-setup
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

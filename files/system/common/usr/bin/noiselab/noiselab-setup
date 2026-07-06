@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# TODO: some stuff that'd be useful to do on boot
+exit 0

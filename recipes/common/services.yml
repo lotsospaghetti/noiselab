@@ -8,3 +8,10 @@ modules:
       enabled:
         - realtime-entsk.service
         - realtime-setup.service
+        - noiselab-setup.service
+      disabled:
+        - bluetooth.service
+      masked:
+        - cups.service
+        - avahi-daemon.service
+        - sshd.service

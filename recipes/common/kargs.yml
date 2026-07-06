@@ -7,6 +7,7 @@ modules:
     arch: x86_64, aarch64
     kargs:
       - nosmt
+      - mitigations=auto
       - threadirqs
       - nowatchdog
       - pcie_aspm=off
